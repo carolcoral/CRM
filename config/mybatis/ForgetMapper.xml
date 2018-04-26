@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!-- 根据用户id或者邮箱查询用户忘记密码链接匹配信息 -->
+	<select id="queryForget" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Forget">
+		select 
+			f.forgetid,f.userid,f.email,f.create_time,f.expiration_time,f.randomcode,f.dr,f.linknumber
+		from hj_forget f
+		where 1=1 and f.dr = 0
+		<if test="userid != null">
+			and f.userid = #{userid}
+		</if>
+		<if test="email != null">
+			and f.email = #{email}
+		</if>
+		order by f.create_time desc
+	</select>
+	
+</mapper> 

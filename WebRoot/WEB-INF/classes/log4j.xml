@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>     
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+
+	<!-- <appender name="myFile" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="D:/output.log" />设置日志输出文件名
+		设置是否在重新启动服务时，在原有日志的基础添加新日志
+		<param name="Append" value="true" />
+		<param name="MaxBackupIndex" value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p (%c:%L)- %m%n" />
+		</layout>
+	</appender> -->
+    <appender name="mybitis" class="org.apache.log4j.ConsoleAppender">
+  <layout class="org.apache.log4j.PatternLayout">
+   <param name="ConversionPattern"
+    value="%-4r [%t] %-5p %c %x - %m%n" />
+  </layout>
+  <filter class="org.apache.log4j.varia.LevelRangeFilter">
+   <param name="LevelMin" value="DEBUG" />
+   <param name="LevelMax" value="DEBUG" />
+  </filter>
+ </appender>
+       
+		<logger name="com.mybitis" additivity="true">
+			<level value="DEBUG" />
+		</logger>
+
+		<logger name="java.sql.Connection" additivity="true">
+			<level value="DEBUG" />
+		</logger>
+
+		<logger name="java.sql.Statement" additivity="true">
+			<level value="DEBUG" />
+		</logger>
+
+		<logger name="java.sql.PreparedStatement" additivity="true">
+			<level value="DEBUG" />
+			<appender-ref ref="mybitis" />
+		</logger>
+
+		<logger name="java.sql.ResultSet" additivity="true">
+			<level value="DEBUG" />
+			<appender-ref ref="mybitis" />
+		</logger>
+	
+		<root>
+			<priority value="DEBUG" />
+			<appender-ref ref="mybitis" />
+			<!-- <appender-ref ref="myFile" /> -->
+		</root>
+</log4j:configuration>

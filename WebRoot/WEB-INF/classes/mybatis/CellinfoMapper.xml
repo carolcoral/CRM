@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!--查询用户的菜单列名-->
+	<select id="queryCellinfo" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Cellinfo">
+		select *
+		from hj_cellinfo where 1=1 and celluserid = #{userid} and cellmenu = #{cellmenu}
+		order by cellno
+	</select>
+	
+		
+	<!-- 删除用户的菜单选择列 -->
+	<delete id="deleteCellinfo" parameterType="java.util.Map">
+		 delete  from hj_cellinfo  where 1=1 and  celluserid = #{userid} and cellmenu = #{cellmenu}
+	</delete>
+	
+</mapper> 

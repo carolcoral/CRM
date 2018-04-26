@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+	
+	<!--查询到账信息  -->
+	<select id="queryMatchinfo" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Matchinfo">
+	
+		select 
+			m.matchInfoId,m.matchname,m.payMoney,m.payType,m.receiveTime,m.matchnote,m.ismatch,m.dr	
+		from hj_matchinfo m
+		where 1=1 and m.dr = 0 and m.ismatch = 0
+		<if test="matchInfoId != null and matchInfoId != ''">
+			and m.matchInfoId=#{matchInfoId}
+		</if>
+		<if test="matchname != null and matchname != ''">
+			and m.matchname  like concat('%','${matchname}','%')
+		</if>
+		<if test="payMoney != null and payMoney != ''">
+			and m.payMoney=#{payMoney}
+		</if>
+		<if test="receiveTime != null and receiveTime != ''">
+			and m.receiveTime=#{receiveTime}
+		</if>
+		<if test="matchnote != null and matchnote != ''">
+			and m.matchnote=#{matchnote}
+		</if>
+		<if test="ismatch != null and ismatch != ''">
+			and m.ismatch=#{ismatch}
+		</if>
+		<if test="payType != null and payType != ''">
+			and m.payType=#{payType}
+		</if>
+		<if test="receiveStartTime != null and receiveStartTime != ''">
+			<![CDATA[ and m.receiveTime >= #{receiveStartTime}]]> 
+		</if>
+		<if test="receiveEndTime != null and receiveEndTime != ''">
+			<![CDATA[ and m.receiveTime <= #{receiveEndTime}]]> 
+		</if>
+		<if test="iscommit != null and iscommit != '' and iscommit != 'false'">
+			 and m.ismatch = 0
+			 order by m.matchname ,m.payMoney desc
+		</if>
+		<if test="iscommit != null and iscommit == 'false'">
+			 and m.ismatch = 0
+			 order by m.receiveTime desc
+		</if>
+		
+	</select>
+	
+	<!-- 修改到账信息的匹配状态 -->
+	<update id="updateIsmatch" parameterType="java.util.Map">
+		update hj_matchinfo set ismatch =#{ismatch} where 1=1 and dr = 0 
+		<![CDATA[and matchInfoId in(${matchinfoIds})]]> 
+	</update>
+	
+	<!--到账信息重复的姓名  -->
+	<select id="queryRepeatMatchinfofalse" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Matchinfo">
+		select  matchname,
+			       count(matchname) count1
+			from hj_matchinfo 
+			where 1=1 and dr = 0  and ismatch = 0
+				 
+			group by matchname 
+			having count1>= 2 order by matchname
+	</select>
+	
+	<!--到账信息重复的详细信息  -->
+	<select id="queryRepeatMatchinfotrue" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Matchinfo">
+		select
+			m.*
+		from hj_matchinfo m
+		where 1=1 and m.dr = 0  and m.ismatch = 0
+		<![CDATA[and m.matchname in(${matchnames})]]> 
+		 order by m.matchname  
+	</select>
+	
+	
+	<!--根据姓名查询到账信息  -->
+	<select id="queryMatchinfoBymname" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Matchinfo">
+	    select 
+			 group_concat(m.payMoney separator ',') payMoney,
+			 group_concat(m.payType separator ',') payType,
+			 group_concat(m.receiveTime separator ',') receiveTime
+		from hj_matchinfo m
+		where 1=1 and m.dr = 0 and m.ismatch = 0  and m.ismatch = 0
+		<if test="matchname != null and matchname != ''">
+			and m.matchname = #{matchname}
+		</if>
+		group by m.matchname
+	</select>
+	
+	<!--财务部查询网络培训费列表-->
+	<select id="queryNetworkEduMoneyBycaiwu" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		where 1=1 and s.dr = 0
+				
+		and s.ishavenetedu = 1  and s.source not in(9) and s.iscommitcaiwu = 1
+		and s.studentstate in(3,4,5,6,7)
+		<if test="phone != null and phone != ''">
+		 	and	s.phone=#{phone}
+		</if>
+		<if test="studentIds != null and studentIds != ''">
+			<![CDATA[and s.studentId in(${studentIds})]]> 
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.commitTime_caiwu desc 
+	</select>
+	
+	
+</mapper> 

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.MenuMapper">
+
+	<!-- 是否存在下级菜单 -->
+	<select id="hasChild" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(1) from hj_menu where menuparaid = #{menuid}
+	</select>
+	
+	<!-- 查询菜单是否有分配的角色权限 -->
+	<select id="hasLinked4Role" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(1) from hj_role_menu where menuid=#{menuid}
+	</select>
+	
+	
+	<!-- 根据用户ID获取菜单 -->
+	<select id="queryMenuByUserid" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Menu">
+		 select 
+		 			 m.menuid,  m.menuname,  m.menuurl,  m.menuno, 
+		        m.menuparaid ,m.menucode,m.menuimgurl,m.create_time,
+		        case  when  m.menuparaid is not null   then 
+		                (select  t.menuname  from  hj_menu t  where t.menuid = m.menuparaid) 
+		        end parentName,
+		        m.menutype 
+		from hj_menu m
+		left join hj_role_menu rm on rm.menuid = m.menuid
+		where 1=1 and m.dr = 0 and rm.dr = 0
+		and rm.roleid = (select u.roleid from hj_user u where 1=1 and u.dr = 0 and u.userid = #{userid})
+			<if test="queryParent != null">
+				AND m.menuparaid IS NULL
+			</if>
+			<if test="parentId != null">
+				AND m.menuparaid = #{parentId}
+			</if>
+			ORDER BY m.menuno
+	</select>
+	
+	<!-- 查询所有的分级别的菜单 -->
+	<select id="queryMenuList" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Menu">
+		 select 
+		 			 m.menuid,  m.menuname,  m.menuurl,  m.menuno, 
+		        m.menuparaid ,m.menucode,m.menuimgurl,m.create_time,
+		        case  when  m.menuparaid is not null   then 
+		                (select  t.menuname  from  hj_menu t  where t.menuid = m.menuparaid) 
+		        end parentName,
+		        m.menutype 
+		from hj_menu m
+		left join hj_role_menu rm on rm.menuid = m.menuid
+		where 1=1 and m.dr = 0 
+			<if test="queryParent != null and roleid != 1">
+				  and rm.roleid=#{roleid} and m.menuparaid IS NULL and m.menuid &lt;&gt; 1
+			</if>
+			<if test="queryParent != null and roleid == 1">
+				 and rm.roleid=#{roleid}  and m.menuparaid IS NULL 
+			</if>
+			<if test="parentId != null">
+				 and rm.roleid=#{roleid}  and m.menuparaid = #{parentId}
+			</if>
+			ORDER BY m.menuno
+	</select>
+	
+	<!-- 查询加载全部菜单 -->
+	<select id="queryAllMenu" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Menu">
+		 select 
+		 			 m.menuid,  m.menuname,  m.menuurl,  m.menuno, 
+		        m.menuparaid ,m.menucode,m.menuimgurl,m.create_time,
+		        case  when  m.menuparaid is not null   then 
+		                (select  t.menuname  from  hj_menu t  where t.menuid = m.menuparaid) 
+		        end menuParaname,
+		        m.menutype 
+		from hj_menu m
+		where 1=1 and m.dr = 0 
+			<if test="queryParent != null">
+				AND m.menuparaid IS NULL
+			</if>
+			<if test="parentId != null">
+				AND m.menuparaid = #{parentId}
+			</if>
+			ORDER BY m.menuno
+	</select>
+	
+	<!-- 获取所有菜单，不划分主子菜单 -->
+	<select id="queryMenus" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Menu">
+		select 
+			*
+		from hj_menu m
+		where 1=1 and m.dr = 0
+	</select>
+	
+	<!-- 根据角色ID获取菜单 -->
+	<select id="queryMenuByRoleid" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Menu">
+		select 
+			m.menuid,m.menuname,m.menuparaid,m.menuurl
+		from hj_menu m
+		left join hj_role_menu rm on rm.menuid = m.menuid
+		where 1=1 and m.dr = 0 and rm.dr = 0 
+		
+		and rm.roleid = #{roleid}
+	</select>
+	
+</mapper> 

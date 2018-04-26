@@ -1,0 +1,578 @@
+#findTeacher {
+    width: 98%;
+    margin: 0 auto
+}
+
+#findTeacher #TeacherRanking {
+    background: #fff;
+    width: 100%;
+    border: 1px solid #e6e6e6
+}
+
+#findTeacher #TeacherRanking:hover {
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    box-shadow: 0 0px 10px gainsboro
+}
+
+#findTeacher #TeacherRanking .Rankingtop {
+    margin: 20px;
+    padding: 10px 0 18px 0;
+    overflow: hidden;
+    border-bottom: 1px solid #ddd
+}
+
+#findTeacher #TeacherRanking .Rankingtop .title {
+    font-size: 22px;
+    color: #333
+}
+
+#findTeacher #TeacherRanking .Rankingtop .time {
+    font-size: 14px;
+    margin-left: 30px;
+    color: #999
+}
+
+#findTeacher #TeacherRanking .Rankingtop .fr {
+    float: right
+}
+
+#findTeacher #TeacherRanking .Rankingtop .fr a {
+    border-radius: 15px;
+    font-size: 14px;
+    height: 26px;
+    line-height: 26px;
+    overflow: hidden;
+    color: #333;
+    width: 109px;
+    text-align: center;
+    float: left;
+    border: 1px solid #b4b4b4;
+    cursor: pointer
+}
+
+#findTeacher #TeacherRanking .Rankingtop .fr a.mar10 {
+    margin-left: 10px
+}
+
+#findTeacher #TeacherRanking .Rankingtop .fr a i {
+    margin-right: 3px
+}
+
+#findTeacher #TeacherRanking .Rankingtop .fr a:hover {
+    color: #fff;
+    background: #da153d;
+    border: 1px solid #da153d
+}
+
+#findTeacher #TeacherRanking .Rankingbott {
+    padding: 18px 0 0;
+    overflow: hidden;
+    margin: 0 20px 20px
+}
+
+#findTeacher #TeacherRanking .Rankingbott .summary-item {
+    width: 119px;
+    height: 50px;
+    float: left;
+    background: url(/public/images/summary-item-icon.png) no-repeat;
+    padding-left: 60px;
+    font-size: 14px;
+    color: #666;
+    margin-right: 89px;
+    white-space: nowrap
+}
+
+#findTeacher #TeacherRanking .Rankingbott .summary-item .num {
+    font-size: 24px;
+    color: #fb5e00;
+    font-family: Arial, 'DejaVu Sans', 'Liberation Sans', Freesans, sans-serif
+}
+
+#findTeacher #TeacherRanking .Rankingbott .summary-item1 {
+    background-position: 0 0
+}
+
+#findTeacher #TeacherRanking .Rankingbott .summary-item2 {
+    background-position: 0 -50px
+}
+
+#findTeacher #TeacherRanking .Rankingbott .summary-item3 {
+    background-position: 0 -100px
+}
+
+#findTeacher #TeacherRanking .Rankingbott .summary-item4 {
+    background-position: 0 -150px
+}
+
+#findTeacher #TeacherRanking .Rankingbott .summary-item5 {
+    background-position: 0 -200px;
+    margin-right: 0
+}
+
+#ThreeRanking {
+    width: 100%;
+    margin-top: 15px;
+    overflow: hidden;
+    padding-bottom: 10px
+}
+
+#ThreeRanking .ranking .ranktitle {
+    margin: 0 20px;
+    height: 53px;
+    line-height: 53px;
+    font-size: 16px
+}
+
+#ThreeRanking .ranking .ranktitle i.icon {
+    font-size: 25px;
+    margin-right: 10px;
+    position: relative;
+    top: 2px
+}
+
+#ThreeRanking .ranking .ranktitle .indicates {
+    -webkit-user-select: none;
+    overflow: hidden;
+    width: 100px;
+    float: right;
+    cursor: pointer;
+    font-size: 14px
+}
+
+#ThreeRanking .ranking .ranktitle .indicates .indicate {
+    padding: 0 5px;
+    border: 1px solid #c8c8c8
+}
+
+#ThreeRanking .ranking .ranktitle .indicates .fa-caret-left {
+    padding-right: 1px
+}
+
+#ThreeRanking .ranking .ranktitle .indicates .fa-caret-right {
+    padding-left: 2px
+}
+
+.rankContent {
+    min-height: 580px
+}
+
+.rankContent .rest {
+	width: 100%;
+    overflow: hidden;
+}
+
+.rankContent .item {
+    overflow: hidden;
+    border-bottom: 1px solid #e1e1e1;
+    margin: 0px 20px;
+    padding: 10px 0;
+    font-size: 16px
+}
+
+.rankContent .item:hover {
+    background: rgb(250, 250, 250)
+}
+
+.rankContent .item:last-child {
+    border-bottom: none
+}
+
+.rankContent .item .sort {
+    float: left;
+    width: 10px;
+    position: relative;
+    color: #999999;
+    top: 8px
+}
+
+.rankContent .item .favicon {
+    width: 20%;
+    float: left;
+    position: relative
+}
+
+.rankContent .item .favicon .avatar {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    overflow: hidden;
+    border-radius: 3px;
+    margin-left: 15px
+}
+
+.rankContent .item .favicon .avatar img {
+    height: 100%
+}
+
+.rankContent .item .info {
+    margin-top: 8px;
+    width: 70%;
+    float: left;
+    color: gray
+}
+
+.rankContent .item .info .row1 {
+    display: none
+}
+
+.rankContent .item .info .row2 .name {
+    color: #333333
+}
+
+.rankContent .item .info .row2 .index {
+    float: right;
+    color: #666666
+}
+
+.rankContent .item.select {
+    padding: 15px 0;
+    border-bottom: 1px solid #c8c8c8
+}
+
+.rankContent .item.select .sort {
+    display: none
+}
+
+.rankContent .item.select .favicon {
+    position: relative;
+    left: -15px
+}
+
+.rankContent .item.select .favicon .avatar {
+    width: 60px;
+    height: 60px;
+    float: left;
+    position: relative
+}
+
+.rankContent .item.select .info {
+    width: 268px;
+    margin-left: 9px
+}
+
+.rankContent .item.select .info .row1 {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+    overflow: hidden;
+}
+.inline span{
+	float: left;
+}
+.sortIndex {
+	background: #b08840;
+    width: 20px;
+    height: 20px;
+    display: inherit;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+}
+.rankContent .item.select .info .row1 .left {
+    position: relative
+}
+
+.rankContent .item.select .info .row1 .left .sortIndex {
+    position: absolute;
+    left: 38px;
+    top: -2px;
+    color: white!important;
+    z-index: 200
+}
+
+.rankContent .item.select .info .row1 .left .sortIndex a {
+    color: white;
+    position: relative;
+    top: -3px;
+    left: -1px;
+}
+
+.rankContent .item.select .info .row1 .left .icon {
+    font-size: 28px;
+    position: absolute;
+    top: -5px;
+    left: 30px;
+    z-index: 100
+}
+
+.rankContent .item.select .info .row1 .right {
+    font-size: 13px;
+    float: right
+}
+
+.rankContent .item.select .info .row2 .name {
+    font-size: 16px
+}
+
+.rankContent .item.select .info .row2 .index {
+    font-size: 20px;
+    color: #333;
+    font-family: "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", "Î¢ÈíÑÅºÚ"
+}
+
+
+
+#ThreeRanking .hotRanking:hover,
+#ThreeRanking .manyRanking:hover,
+#ThreeRanking .fireRanking:hover {
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    box-shadow: 0 3px 10px gainsboro
+}
+
+#ThreeRanking .hotRanking .ranktitle {
+    color: #b08840;
+    border-bottom: 1px solid #b08840
+}
+
+#ThreeRanking .hotRanking .rankContent .icon {
+    color: #b08840
+}
+
+#ThreeRanking .manyRanking .ranktitle {
+    color: #d14949;
+    border-bottom: 1px solid #d14949
+}
+
+#ThreeRanking .manyRanking .rankContent .icon {
+    color: #d14949
+}
+
+#ThreeRanking .fireRanking .ranktitle {
+    color: #4058b0;
+    border-bottom: 1px solid #4058b0
+}
+
+#ThreeRanking .fireRanking .rankContent .icon {
+    color: #4058b0
+}
+
+#userhover {
+    width: 470px;
+    height: 258px;
+    padding: 15px 17px;
+    position: absolute;
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    left: 100
+}
+
+#userhover .arrow {
+    font-size: 20px;
+    position: absolute;
+    color: #fff
+}
+
+#userhover .row-1 {
+    height: 154px;
+    border-bottom: 1px solid #eee
+}
+
+#userhover .row-1 .col-1 {
+    float: left;
+    width: 75px;
+    text-align: center
+}
+
+#userhover .row-1 .col-1 div {
+    height: 82px
+}
+
+#userhover .row-1 .col-1 div .row-pic img {
+    border-radius: 5px;
+    border: none
+}
+
+#userhover .row-1 .col-1 .btn {
+    width: 71px;
+    height: 23px;
+    color: #333;
+    border-radius: 15px;
+    font-size: 14px;
+    display: block;
+    border: 1px solid #b4b4b4;
+    margin-top: 5px
+}
+
+#userhover .row-1 .col-1 .btn i {
+    color: #da153d;
+    margin-right: 3px
+}
+
+#userhover .row-1 .col-2 {
+    float: left;
+    margin-left: 18px;
+    color: #333;
+    width: 343px
+}
+
+#userhover .row-1 .col-2 .name {
+    font-size: 16px
+}
+
+#userhover .row-1 .col-2 .name i {
+    color: #fb5e00
+}
+
+#userhover .row-1 .col-2 .name .f14 {
+    font-size: 14px;
+    margin-left: 10px
+}
+
+#userhover .row-1 .col-2 .xhh {
+    margin: 5px 0;
+    font-size: 12px
+}
+
+#userhover .row-1 .col-2 .xhh .xh_1 {
+    margin-left: 0
+}
+
+#userhover .row-1 .col-2 .xhh .xh_2 {
+    margin-left: 20px
+}
+
+#userhover .row-1 .col-2 .xhh .highlight {
+    color: #fb5e00
+}
+
+#userhover .row-1 .col-2 .xhh .mr10 {
+    margin-right: 10px
+}
+
+#userhover .row-2 {
+    padding-top: 10px
+}
+
+#userhover .row-2 .block-item {
+    float: left;
+    height: 55px;
+    border-right: 1px solid #ddd
+}
+
+#userhover .row-2 .block-item p {
+    color: #333;
+    font-size: 14px;
+    text-align: center
+}
+
+#userhover .row-2 .block-item p.num {
+    color: #fb5e00;
+    margin-top: 10px;
+    line-height: 23px
+}
+
+#userhover .row-2 .block-item p.num b {
+    font-size: 30px
+}
+
+#userhover .row-2 .block-item-1 {
+    width: 90px
+}
+
+#userhover .row-2 .block-item-2 {
+    width: 105px
+}
+
+#userhover .row-2 .block-item-3 {
+    width: 100px;
+    border-right: 0
+}
+
+#userhover .row-2 .block-item-4 {
+    width: 140px;
+    border-right: 0
+}
+
+#userhover .row-2 .block-item-4 .btn {
+    display: block;
+    border-radius: 5px;
+    color: #fff;
+    width: 100px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    text-align: center;
+    margin: 15px 0 0 10px;
+    background: #d1183c;
+    box-shadow: 0 3px #d1183e
+}
+
+#userhover .row-2 .block-item-4 .btn:hover {
+    background: #b61536;
+    box-shadow: #9d0625
+}
+
+#userhover .arrow.left {
+    display: block;
+    left: -6px;
+    font-size: 20px
+}
+
+#userhover .arrow.right {
+    display: none
+}
+
+#userhover.userhoveer-beyond .arrow.left {
+    display: none
+}
+
+#userhover.userhoveer-beyond .arrow.right {
+    font-size: 20px;
+    position: absolute;
+    display: inline;
+    right: -6px
+}
+.userrank{
+	font-size: 34px;
+    text-align: center;
+    line-height: 60px;
+}
+.userrest{
+	font-size: 20px;
+    text-align: center;
+    line-height: 34px;
+}
+#taskStartTime, #selectmoth {
+	width: 80px;
+    border: 1px solid #ddd;
+    height: 28px;
+    line-height: 32px;
+    border-radius: 4px !important;
+    padding: 0 3px;
+}
+.filterder {
+    padding: 4px 7px;
+    border-radius: 4px;
+    margin: 0 3px;
+}
+.export {
+	margin-top: 14px;
+    float: right;
+    display:none;
+}
+.preoDetail {
+	width: 100%;
+	overflow: hidden
+}
+.xingm {
+	float:left;
+}
+.caidan {
+	float:right;
+	margin-bottom: 10px;
+}
+.chioce_time {
+    width: 100px;
+    height: 27px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0 12px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}

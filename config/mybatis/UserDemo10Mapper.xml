@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	 <select id="queryAllDemo10Users" resultType="com.hjcrm.system.entity.User">
+	 
+	 	select userid,username from hj_user
+	 
+	 </select>
+	 
+	  <select id="queryAllUsersbyid" resultType="com.hjcrm.system.entity.User" parameterType="java.util.Map">
+	 
+	 	select userid,username from hj_user where
+	 	<if test="userid != null and  userid != ''">
+	 		userid = #{userid}
+	 	</if>
+	 
+	 </select>
+	
+</mapper> 

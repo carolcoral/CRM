@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!-- 查询符合条件的数据-->
+	<select id="queryTaskResources" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Resource">
+	 	select r.belongid,r.phone,r.resourceName ,r.resourceId,r.tel
+		from hj_resource r
+		where 1=1 and r.dr = 0
+		<![CDATA[ and r.nextVisitTime >= '${nowtime}']]>  
+		<![CDATA[ and r.nextVisitTime <= '${nexttime}']]>  
+ 	</select>
+ 	
+ 	<!-- 筛选资源-->
+	<select id="queryTaskResourceList" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Resource">
+		select 	(select visitRecord from hj_visitrecord where 1=1 and dr = 0 and resourceId = r.resourceId order by create_time desc limit 1) visitRecord,
+				count(vr.visitRecordid) visitCount,min(vr.create_time) firstVisitTime, max(vr.create_time) nearVisitTime,
+				r.*,c.courseName courseName	,u.username belongName	
+		from hj_resource r
+		left join hj_visitrecord vr on vr.resourceId = r.resourceId
+		left join hj_course c on c.courseid = r.courseid
+		left join hj_user u on u.userid = r.belongid
+		where 1=1 and r.dr = 0 
+		<if test="deptid != null and deptid == 5 and roleid ==52 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 9 and roleid ==5 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 10 and roleid ==7 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 11 and roleid ==9 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 12 and roleid ==11 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 13 and roleid ==13 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 14 and roleid ==15 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 15 and roleid ==17 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 16 and roleid ==19 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		
+		
+		<if test="deptid != null and deptid == 21 and roleid ==36 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 22 and roleid ==37 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 23 and roleid ==39 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 24 and roleid ==41 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 25 and roleid ==43 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 26 and roleid ==45 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 27 and roleid ==47 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 29 and roleid ==49 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 29 and roleid ==49 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 29 and roleid ==50 ">
+				and r.isStudent = 0
+				and ((r.userid = #{userid}) or r.belongid = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 9 and roleid ==4 ">
+			and ( r.userid in(select userid from hj_user where deptid = 9) or r.belongid in (select userid from hj_user where deptid = 9))
+			and r.isStudent = 0
+		</if>
+		<if test="deptid != null and deptid == 10 and roleid ==6 ">
+			and ( r.userid in(select userid from hj_user where deptid = 10) or r.belongid in (select userid from hj_user where deptid = 10))
+			and r.isStudent = 0
+		</if>
+		<if test="deptid != null and deptid == 11 and roleid ==8 ">
+			and ( r.userid in(select userid from hj_user where deptid = 11) or r.belongid in (select userid from hj_user where deptid = 11))
+			and r.isStudent = 0
+		</if>
+		<if test="deptid != null and deptid == 12 and roleid ==10 ">
+			and ( r.userid in(select userid from hj_user where deptid = 12) or r.belongid in (select userid from hj_user where deptid = 12))
+			and r.isStudent = 0
+		</if>
+		<if test="deptid != null and deptid == 13 and roleid ==12 ">
+			and ( r.userid in(select userid from hj_user where deptid = 13) or r.belongid in (select userid from hj_user where deptid = 13))
+			and r.isStudent = 0
+		</if>
+		<if test="deptid != null and deptid == 14 and roleid ==14 ">
+			and ( r.userid in(select userid from hj_user where deptid = 14) or r.belongid in (select userid from hj_user where deptid = 14))
+			and r.isStudent = 0
+		</if>
+		<if test="deptid != null and deptid == 15 and roleid ==16 ">
+			and ( r.userid in(select userid from hj_user where deptid = 15) or r.belongid in (select userid from hj_user where deptid = 15))
+			and r.isStudent = 0
+		</if>
+		<if test="deptid != null and deptid == 16 and roleid ==18 ">
+			and ( r.userid in(select userid from hj_user where deptid = 16) or r.belongid in (select userid from hj_user where deptid = 16))
+			and r.isStudent = 0
+		</if>
+		
+						 
+		<if test="deptid != null and deptid == 2">
+			and (r.deptid = 2 or (r.deptid in(5,7,8,9,10,11,12,13,14,15,16)  and r.source != 0))
+		</if>
+		<if test="resourceIds != null">
+			<![CDATA[and r.resourceId in(${resourceIds})]]> 
+		</if> 
+		group by r.resourceId
+		order by r.state, r.create_time desc
+	</select>
+	
+</mapper> 

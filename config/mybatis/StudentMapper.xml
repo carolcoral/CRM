@@ -1,0 +1,950 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!-- 查询学员信息 -->                  
+	 <select id="queryStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+	 	select uu.username customerName,
+			s.*,u.username belongName,(s.dealprice + s.netedumoney) sumPayMoney
+		from hj_student s
+		left join hj_user u on u.userid = s.belongid
+		left join hj_user uu on uu.userid = s.customerId
+		where 1=1 and s.dr = 0
+	 	<if test="studentId != null">
+	 		and s.studentId=#{studentId}
+	 	</if>	
+	 	<if test="belongid != null">
+	 		and s.belongid=#{belongid}
+	 	</if>
+		<if test="deptid != null and deptid == 4">
+			and s.studentstate = 2
+		</if>
+		<!-- <if test="deptid != null and deptid == 1">
+			and s.studentstate = 2
+		</if> -->
+		<if test="studentIds != null and studentIds != ''">
+			<![CDATA[and studentId in(${studentIds})]]> 
+		</if>
+	 </select>
+	 <!-- 查询学员管理列表 -->
+	 <select id="queryStudentlist" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+		<!-- <if test="deptid != null and deptid == 2">
+			case when s.source = 0 
+			then concat_ws('****', substring(s.phone, 1, 4),  substring(s.phone, 9, 3)) 
+			else s.phone end as phone,
+ 		</if> -->
+				s.*,u.username belongName,(s.dealprice + s.netedumoney) sumPayMoney,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		where 1=1 and s.dr = 0
+		<if test="deptid != null and deptid == 5 and roleid ==52 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 9 and roleid ==5 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 10 and roleid ==7 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 11 and roleid ==9 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 12 and roleid ==11 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 13 and roleid ==13 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 14 and roleid ==15 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 15 and roleid ==17 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 16 and roleid ==19 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==25 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		
+		
+		<if test="deptid != null and deptid == 21 and roleid ==36 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 22 and roleid ==37 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 23 and roleid ==39 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 24 and roleid ==41 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 25 and roleid ==43 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 26 and roleid ==45 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 27 and roleid ==47 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 29 and roleid ==49 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 29 and roleid ==50 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		
+		
+		
+		<if test="deptid != null and deptid == 9 and roleid ==4 ">
+			and ( s.userid in(select userid from hj_user where deptid = 9) or s.belongid in (select userid from hj_user where deptid = 9))
+		</if>
+		<if test="deptid != null and deptid == 10 and roleid ==6 ">
+			and ( s.userid in(select userid from hj_user where deptid = 10) or s.belongid in (select userid from hj_user where deptid = 10))
+		</if>
+		<if test="deptid != null and deptid == 11 and roleid ==8 ">
+			and ( s.userid in(select userid from hj_user where deptid = 11) or s.belongid in (select userid from hj_user where deptid = 11))
+		</if>
+		<if test="deptid != null and deptid == 12 and roleid ==10 ">
+			and ( s.userid in(select userid from hj_user where deptid = 12) or s.belongid in (select userid from hj_user where deptid = 12))
+		</if>
+		<if test="deptid != null and deptid == 13 and roleid ==12 ">
+			and ( s.userid in(select userid from hj_user where deptid = 13) or s.belongid in (select userid from hj_user where deptid = 13))
+		</if>
+		<if test="deptid != null and deptid == 14 and roleid ==14 ">
+			and ( s.userid in(select userid from hj_user where deptid = 14) or s.belongid in (select userid from hj_user where deptid = 14))
+		</if>
+		<if test="deptid != null and deptid == 15 and roleid ==16 ">
+			and ( s.userid in(select userid from hj_user where deptid = 15) or s.belongid in (select userid from hj_user where deptid = 15))
+		</if>
+		<if test="deptid != null and deptid == 16 and roleid ==18 ">
+			and ( s.userid in(select userid from hj_user where deptid = 16) or s.belongid in (select userid from hj_user where deptid = 16))
+		</if>
+		
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and ( s.userid = #{userid} or s.belongid  = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and ( s.userid = #{userid} or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==24 ">
+			and ( s.userid = #{userid} or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.userid = #{userid} or s.belongid = #{userid})
+		</if>		
+				
+						 
+		<if test="deptid != null and deptid == 4">
+			and  s.studentstate = 2 and s.isOnlineBuy = 0
+			and  s.source not in (9) 
+		</if>
+		<if test="studentIds != null and studentIds != ''">
+			<![CDATA[and s.studentId in(${studentIds})]]> 
+		</if>
+					
+		group by s.studentId,s.resourceId, d.courseid 
+		
+		<if test="deptid != null and deptid == 2">
+			order by s.dealtime desc 
+		</if>
+		<if test="deptid != null and deptid != 2 and deptid !=4">
+			order by s.dealtime desc,s.belongid  
+		</if>
+		<if test="deptid != null and deptid ==4">
+			order by s.commit_time desc 
+		</if>
+ 
+	 </select>
+	 
+	 <!-- 查询学员成交记录-->
+	 <select id="queryStudentDealrecord" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Dealrecord">
+	 	select 
+			d.dealrecordId,d.resourceId,d.studentId,d.courseid,d.subjectid,
+			c.courseName  courseName,
+			group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid) separator '、') subjectname
+		from hj_dealrecord d
+		left join hj_course c  on c.courseid = d.courseid 
+		where 1=1 
+		<if test="studentId != null">
+			and	d.studentId = #{studentId}
+		</if>
+		<if test="resourceId != null">
+			and	d.resourceId = #{resourceId}
+		</if>
+		group by d.courseid 
+	 </select>
+	 
+	  <!-- 查询回访表学员成交记录-->
+	 <select id="queryhfStudentDealrecord" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Dealrecord">
+	 	select 
+			d.*,sb.subjectname subjectname,
+			c.courseName  courseName
+		from hj_dealrecord d
+		left join hj_course c  on c.courseid = d.courseid 
+		left join hj_subject sb on sb.subjectid = d.subjectid
+		where 1=1 
+		<if test="studentId != null">
+			and	d.studentId = #{studentId}
+		</if>
+		<if test="resourceId != null">
+			and	d.resourceId = #{resourceId}
+		</if>
+		group by d.subjectid 
+	 </select>
+	 <!-- 查询学员回访记录 -->
+	<select id="queryStudentVisitrecord" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Visitrecord">
+		select
+			*
+		from hj_visitrecord vr
+		where 1=1 and vr.dr = 0
+		<if test="deptid != null and deptid == 5 and roleid ==52 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 9 and roleid ==5 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 10 and roleid ==7 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 11 and roleid ==9 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 12 and roleid ==11 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 13 and roleid ==13 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 14 and roleid ==15 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 15 and roleid ==17 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 16 and roleid ==19 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==25 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and vr.userid = #{userid}
+		</if>
+		
+		<if test="deptid != null and deptid == 21 and roleid ==36 ">
+				and vr.userid = #{userid}
+		</if>
+			
+		<if test="deptid != null and deptid == 22 and roleid ==37 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 23 and roleid ==39 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 24 and roleid ==41 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 25 and roleid ==43 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 26 and roleid ==45 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 27 and roleid ==47 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 29 and roleid ==49 ">
+				and vr.userid = #{userid}
+		</if>
+		<if test="deptid != null and deptid == 29 and roleid ==50 ">
+				and vr.userid = #{userid}
+		</if>
+		
+		<if test="deptid != null and deptid == 9 and roleid ==4 ">
+			and (vr.userid in (select userid from hj_user where deptid = 9))
+		</if>
+		<if test="deptid != null and deptid == 10 and roleid ==6 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 10))
+		</if>
+		<if test="deptid != null and deptid == 11 and roleid ==8 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 11))
+		</if>
+		<if test="deptid != null and deptid == 12 and roleid ==10 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 12))
+		</if>
+		<if test="deptid != null and deptid == 13 and roleid ==12 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 13))
+		</if>
+		<if test="deptid != null and deptid == 14 and roleid ==14 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 14))
+		</if>
+		<if test="deptid != null and deptid == 15 and roleid ==16 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 15))
+		</if>
+		<if test="deptid != null and deptid == 16 and roleid ==18 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 16))
+		</if>
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 17))
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 18))
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==24 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 19))
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and (vr.userid  in (select userid from hj_user where deptid = 20))
+		</if>		
+		<if test="studentId != null">
+			and vr.studentId=#{studentId}
+		</if>
+		order by vr.create_time 
+	</select>
+	
+	  <!-- 筛选-->
+	 <select id="queryStudentBySceen" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username belongName,(s.dealprice + s.netedumoney) sumPayMoney, uu.username customerName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		 left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		left join hj_user uu on uu.userid = s.customerId
+		where 1=1 and s.dr = 0
+		<if test="deptid != null and deptid == 5 and roleid ==52 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 9 and roleid ==5 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 10 and roleid ==7 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 11 and roleid ==9 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 12 and roleid ==11 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 13 and roleid ==13 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 14 and roleid ==15 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 15 and roleid ==17 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 16 and roleid ==19 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 21 and roleid ==36 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		
+		
+		<if test="deptid != null and deptid == 22 and roleid ==37 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 23 and roleid ==39 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 24 and roleid ==41 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 25 and roleid ==43 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 26 and roleid ==45 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 27 and roleid ==47 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 29 and roleid ==49 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 29 and roleid ==50 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		
+		
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==25 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+		</if>
+		
+		
+		
+		<if test="deptid != null and deptid == 9 and roleid ==4 ">
+			and ( s.userid in(select userid from hj_user where deptid = 9) or s.belongid in (select userid from hj_user where deptid = 9))
+		</if>
+		<if test="deptid != null and deptid == 10 and roleid ==6 ">
+			and ( s.userid in(select userid from hj_user where deptid = 10) or s.belongid in (select userid from hj_user where deptid = 10))
+		</if>
+		<if test="deptid != null and deptid == 11 and roleid ==8 ">
+			and ( s.userid in(select userid from hj_user where deptid = 11) or s.belongid in (select userid from hj_user where deptid = 11))
+		</if>
+		<if test="deptid != null and deptid == 12 and roleid ==10 ">
+			and ( s.userid in(select userid from hj_user where deptid = 12) or s.belongid in (select userid from hj_user where deptid = 12))
+		</if>
+		<if test="deptid != null and deptid == 13 and roleid ==12 ">
+			and ( s.userid in(select userid from hj_user where deptid = 13) or s.belongid in (select userid from hj_user where deptid = 13))
+		</if>
+		<if test="deptid != null and deptid == 14 and roleid ==14 ">
+			and ( s.userid in(select userid from hj_user where deptid = 14) or s.belongid in (select userid from hj_user where deptid = 14))
+		</if>
+		<if test="deptid != null and deptid == 15 and roleid ==16 ">
+			and ( s.userid in(select userid from hj_user where deptid = 15) or s.belongid in (select userid from hj_user where deptid = 15))
+		</if>
+		<if test="deptid != null and deptid == 16 and roleid ==18 ">
+			and ( s.userid in(select userid from hj_user where deptid = 16) or s.belongid in (select userid from hj_user where deptid = 16))
+		</if>
+		
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and ( s.userid = #{userid} or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and ( s.userid = #{userid} or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==24 ">
+			and ( s.userid = #{userid} or s.belongid = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.userid = #{userid} or s.belongid = #{userid})
+		</if>		
+		
+				
+						 
+		<!-- <if test="deptid != null and deptid == 2">
+			and s.source != 0
+		</if> -->
+		<if test="deptid != null and deptid == 4 and isnet == null">
+			and  s.studentstate = 2 and s.isOnlineBuy!=1
+			and  s.source not in (9) 
+		</if>
+		
+		<if test="deptid != null and deptid == 4">
+			and  s.isOnlineBuy!=1
+		</if>
+		
+	 	<if test="dealStartTime != null and dealStartTime != ''">
+	 		<![CDATA[ and s.dealTime >= #{dealStartTime}]]> 
+	 	</if>
+	 	<if test="dealEndTime != null and dealEndTime != ''">
+	 		<![CDATA[ and s.dealTime <= #{dealEndTime}]]> 
+	 	</if>
+	 	<if test="scoretime != null and scoretime != ''">
+	 		<![CDATA[ and s.scoretime <= #{scoretime}]]> 
+	 	</if>
+	 	<if test="arrive_time != null and arrive_time != ''">
+	 		<![CDATA[ and s.arrive_time = #{arrive_time}]]> 
+	 	</if>
+	 	<if test="mailTime != null and mailTime != ''">
+	 		<![CDATA[ and s.mailTime = #{mailTime}]]> 
+	 	</if>
+	 	<if test="belongid != null and belongid != ''">
+	 		and s.belongid = #{belongid}
+	 	</if>
+	 	<if test="classNum != null and classNum != ''">
+	 		and s.classNum = #{classNum}
+	 	</if>
+	 	<if test="studentColor != null and studentColor != ''">
+	 		and s.studentColor = #{studentColor}
+	 	</if>
+	 	<if test="courseversion != null and courseversion != ''">
+	 		and s.courseversion = #{courseversion}
+	 	</if>
+	 	<if test="studentName != null and studentName != ''">
+	 		and ((s.studentName  like concat('%','${studentName}','%') or s.phone like concat('%','${studentName}','%') or s.idCard like concat('%','${studentName}','%') or (u.username  like concat('%','${studentName}','%'))) 
+	 			)
+	 	</if>
+	 	<if test="idCard != null and idCard !=''">
+	 		and ((s.studentName  like concat('%','${idCard}','%') or s.phone like concat('%','${idCard}','%') or s.idCard like concat('%','${idCard}','%') or (u.username  like concat('%','${studentName}','%')))
+	 			)
+	 	</if>
+	 	<if test="phone != null and phone != ''">
+	 		and ( (s.studentName  like concat('%','${phone}','%') or s.phone like concat('%','${phone}','%') or s.idCard like concat('%','${phone}','%') or (u.username  like concat('%','${studentName}','%')))
+	 			)
+	 	</if>
+	 	<if test="source != null">
+	 		and s.source=#{source}
+	 	</if>
+	 	<if test="banci != null and banci !=''">
+	 		and s.banci=#{banci}
+	 	</if>
+	 	<if test="courseid != null">
+	 		and s.courseid=#{courseid}
+	 	</if>
+	 	
+	 	<if test="arriveStartTime != null">
+	 		<![CDATA[ and s.arrive_time >= #{arriveStartTime}]]> 
+	 	</if>
+	 	<if test="arriveEndTime != null">
+	 		<![CDATA[ and s.arrive_time <= #{arriveEndTime}]]> 
+	 	</if>
+	 	<if test="arrive_money != null">
+	 		and s.arrive_money=#{arrive_money}
+	 	</if>
+	 	<if test="studentEvaluate != null">
+	 		and s.studentEvaluate=#{studentEvaluate}
+	 	</if>
+	 	<if test="remitWay != null">
+	 		and s.remitWay  like concat('%','${remitWay}','%')
+	 	</if>
+	 	<if test="remituser != null">
+	 		and s.remituser  like concat('%','${remituser}','%')
+	 	</if>
+	 	<if test="company != null">
+	 		and s.company  like concat('%','${company}','%')
+	 	</if>
+	 	<if test="ispass != null">
+	 		and s.ispass  like concat('%','${ispass}','%')
+	 	</if>
+	 	
+	 	<if test="issign != null and issign != '' and issign == 'true'">
+	 		and s.studentstate > 1
+	 	</if>
+	 	
+	 	<if test="payStartTime != null and payStartTime != ''">
+	 		<![CDATA[ and s.paytime >= #{payStartTime}]]> 
+	 	</if>
+	 	<if test="payEndTime != null and payEndTime != ''">
+	 		<![CDATA[ and s.paytime <= #{payEndTime}]]> 
+	 	</if>
+	 	
+	 	<if test="matchinfoStarttime != null and matchinfoStarttime != ''">
+	 		<![CDATA[ and s.matchinfo_time >= #{matchinfoStarttime}]]> 
+	 	</if>
+	 	<if test="matchinfoEndtime != null and matchinfoEndtime != ''">
+	 		<![CDATA[ and s.matchinfo_time <= #{matchinfoEndtime}]]> 
+	 	</if>
+	 	<if test="isnet != null and isnet != '' and isnet == 'true'">
+	 		and s.ishavenetedu = 1 
+       	    and s.source not in (9) 
+        	and s.studentstate in (3, 4, 5, 6, 7) 
+	 	</if>
+	 	<if test="isnet != null and isnet != '' and isnet == 'false' and studentstate == null">
+        	 and s.source not in(9)
+			 and s.studentstate in (3,4,5,6,7)
+	 	</if>
+	 	<if test="isnet != null and isnet != '' and isnet == 'false' and studentstate != null">
+        	 and s.source not in(9)
+			 and s.studentstate =#{studentstate}
+	 	</if>
+	 	group by s.studentId,d.courseid
+	 	<if test="isnet != null and isnet != '' and isnet != 'true'">
+			order by s.studentstate
+	 	</if>
+	 	<if test="isnet != null and isnet != '' and isnet == 'true'">
+	 		order by s.iscommitcaiwu,s.create_time desc,s.dealtime desc 
+	 	</if>
+	 	<if test="deptid != null and deptid ==4 and isnet == null ">
+			order by s.commit_time desc 
+		</if>
+	 </select>
+	
+		
+	<!-- 修改资源的学员状态 -->
+	<update id="updateResourceStudentstate" parameterType="java.util.Map">
+		update hj_resource set studentstate = #{studentState} 
+		where 1=1 and dr = 0 
+		<![CDATA[and resourceId in(${resourceIds})]]> 
+	</update>
+	
+	<!-- 修改学员的退回学员状态 -->
+	<update id="updateStudentstate" parameterType="java.util.Map">
+		update hj_student 
+		set studentstate = #{studentstate} 
+		<if test="returnNote != null and returnNote !=''">
+			,returnNote = #{returnNote}
+		</if>
+		<if test="returnId != null">
+			,returnId=#{returnId}
+		</if>
+		<if test="returnTime != null">
+			,returnTime=#{returnTime}
+		</if>
+		where 1=1 and dr = 0 
+		<![CDATA[and studentId in(${studentIds})]]> 
+	</update>
+	
+	 <!--到账学员总表查询-->
+	 <select id="queryYesStudentMatchinfo" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+			s.*,u.username belongName,uu.username customerName,d.dealrecordId,d.subjectid, 
+			c.courseName  courseName,s.dealprice,s.dealtime,
+		 case when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) = 5 then 'C五科' 
+		when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) &lt;&gt; 5 then group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') end as subjectname
+		,group_concat(case when (d.subjectid in(3,8)  and d.ispass = 0) or(dd.subjectid in(3,8)  and dd.ispass = 0) then '未通过' 
+				when (d.subjectid in(3,8)  and d.ispass = 1) or(dd.subjectid in(3,8)  and dd.ispass = 1) then '通过' 
+				when (d.subjectid in(3,8)  and d.ispass = 2) or(dd.subjectid in(3,8)  and dd.ispass = 2) then '缺考' end) as touzi	
+		,group_concat(case when (d.subjectid in(3,8)) or(dd.subjectid in(3,8)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as touziExamDate
+						
+		,group_concat(case when (d.subjectid in(4,9)  and d.ispass = 0) or (dd.subjectid in(4,9)  and dd.ispass = 0) then '未通过' 
+							when (d.subjectid in(4,9)  and d.ispass = 1) or (dd.subjectid in(4,9)  and dd.ispass = 1) then '通过' 
+							when (d.subjectid in(4,9)  and d.ispass = 2) or (dd.subjectid in(4,9)  and dd.ispass = 2) then '缺考' end )as baoxian
+		,group_concat(case when (d.subjectid in(4,9)) or(dd.subjectid in(4,9)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as baoxianExamDate
+						
+		,group_concat(case when (d.subjectid in(5,10) and d.ispass = 0) or (dd.subjectid in(5,10) and dd.ispass = 0) then '未通过' 
+							when (d.subjectid in(5,10) and d.ispass = 1) or (dd.subjectid in(5,10) and dd.ispass = 1) then '通过' 
+							when (d.subjectid in(5,10) and d.ispass = 2) or (dd.subjectid in(5,10) and dd.ispass = 2) then '缺考' end) as shuiwu
+		,group_concat(case when (d.subjectid in(5,10)) or(dd.subjectid in(5,10)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as shuiwuExamDate
+					
+		,group_concat(case when (d.subjectid in(6,11) and d.ispass = 0) or(dd.subjectid in(6,11) and dd.ispass = 0) then '未通过' 
+							when (d.subjectid in(6,11) and d.ispass = 1) or(dd.subjectid in(6,11) and dd.ispass = 1) then '通过' 
+							when (d.subjectid in(6,11) and d.ispass = 2) or(dd.subjectid in(6,11) and dd.ispass = 2) then '缺考' end) as fuli
+		,group_concat(case when (d.subjectid in(6,11)) or(dd.subjectid in(6,11)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as fuliExamDate
+						
+		,group_concat(case when (d.subjectid in(7,12) and d.ispass = 0) or (dd.subjectid in(7,12) and dd.ispass = 0) then '未通过' 
+							when (d.subjectid in(7,12) and d.ispass = 1) or (dd.subjectid in(7,12) and dd.ispass = 1) then '通过' 
+							when (d.subjectid in(7,12) and d.ispass = 2) or (dd.subjectid in(7,12) and dd.ispass = 2) then '缺考' end) as zonghe	
+		,group_concat(case when (d.subjectid in(7,12)) or(dd.subjectid in(7,12)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as zongheExamDate
+			
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		left join hj_user uu on uu.userid = s.customerId
+		where 1=1 and s.dr = 0  and s.source not in(9)
+		and s.studentstate in (3,4,5,6,7) and s.isOnlineBuy !=1
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.matchinfo_time desc,s.dealtime desc 
+	 </select>
+	 
+	  <!--查询已通过学员列表-->
+	 <select id="queryPassStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		where 1=1 and s.dr = 0 
+		and s.source not in(9)
+		and s.studentstate in (6)
+		
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+				and s.courseid in (1,2,17)
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+				and s.courseid in (1,2,17)
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==25 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+				and s.courseid in (3,4,18)
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+				and s.courseid in (6,7,8,9,10,11,14)
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+				and s.courseid in (5,6,7,8,9,13,14)
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+				and s.courseid in (6,7,8,9,10)
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and ((s.userid = #{userid}) or s.belongid = #{userid})
+				and s.courseid in (5,6,7,8,9)
+		</if>
+		
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and ( s.userid in(select userid from hj_user where deptid = 17) or s.belongid in (select userid from hj_user where deptid = 17))
+			and s.courseid in (1,2,17)
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and ( s.userid in(select userid from hj_user where deptid = 18) or s.belongid in (select userid from hj_user where deptid = 18))
+			and s.courseid in (1,2,17)
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==24 ">
+			and ( s.userid in(select userid from hj_user where deptid = 19) or s.belongid in (select userid from hj_user where deptid = 19))
+			and s.courseid in (3,4,18)
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.userid in(select userid from hj_user where deptid = 20) or s.belongid in (select userid from hj_user where deptid = 20))
+			and s.courseid in (5,6,7,8,9,10,11,12,13,14)
+		</if>		
+		
+		<if test="phone != null and phone != ''">
+			and s.phone  like concat('%','${phone}','%') 
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc 
+	 </select>
+	
+	<!-- 已到账学员分配客服 -->
+	<update id="assignStudent" parameterType="java.util.Map">
+		update hj_student 
+		set studentstate = #{studentstate},customerId = #{customerId},customer_time = #{customer_time},headmaster=#{headmaster}
+		where 1=1 and dr = 0 
+		<![CDATA[and studentId in(${studentIds})]]> 
+	</update>
+	
+	<!--查询有网络培训费的学员列表-->
+	<select id="queryNetworkEduMoney" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		where 1=1 and s.dr = 0
+				
+		<if test="deptid != null and deptid == 4">
+			 and s.ishavenetedu = 1  and s.source not in(9)
+			and s.studentstate in(3,4,5,6,7)
+		</if>
+		<if test="studentIds != null and studentIds != ''">
+			<![CDATA[and s.studentId in(${studentIds})]]> 
+		</if>
+			group by s.studentId,s.resourceId, d.courseid 
+		<if test="deptid != null and deptid != 2">
+			order by s.iscommitcaiwu,s.create_time desc,s.dealtime desc 
+		</if>
+	</select>
+	
+	 <!--在线购买-->
+	 <select id="queryOnLineStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username belongName, uu.username customerName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectid from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator ',') subjectids,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		 left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		left join hj_user uu on uu.userid = s.customerId
+		where 1=1 and s.dr = 0
+		and s.isOnlineBuy=1 and  s.studentstate in(3,4,5,6,7)
+		<if test="phone != null and phone != ''">
+			and s.phone  like concat('%','${phone}','%') 
+		</if>
+		 <if test="courseid != null">
+			and s.courseid = #{courseid}
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc 
+	 </select>
+	
+	 <!-- 查询销售已提交未确认到账的信息 -->
+	 <select id="queryStudnetMatchs" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username belongName,(s.dealprice + s.netedumoney) sumPayMoney,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		where 1=1 and s.dr = 0 and s.matchinfo_time is  null  and s.source not in(9)  and s.studentstate = 2 and s.isOnlineBuy !=1
+		
+		<if test="studentName != null and studentName != ''">
+	 		and( s.studentName  like concat('%','${studentName}','%') or s.remituser  like concat('%','${studentName}','%'))
+	 	</if>
+		
+		
+			group by s.studentId,s.resourceId, d.courseid 
+			order by s.studentName,s.dealprice desc 
+	 </select>
+	 
+	<!--根据学员姓名学员列表-->
+	<select id="queryStudentBysname" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		 select 
+			*
+		from hj_student s
+		where 1=1 and s.dr = 0  and s.studentstate = 2
+			and s.remituser= #{remituser} 
+	</select>
+	
+	<!--通过代汇款人，查询汇款金额和-->
+	<select id="queryStudentSumPayMoney" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+		 	sum(s.dealprice+s.netedumoney) sumPayMoney
+		from hj_student s
+		where 1=1 and s.dr = 0 and matchinfo_time is  null  and s.studentstate = 2 and s.remituser = #{remituser} and s.isOnlineBuy = 0
+	</select>
+	
+	<!-- 行政提交财务网络培训费数据-->
+	<update id="commitTocaiwu" parameterType="java.util.Map">
+		update hj_student 
+		set iscommitcaiwu =1,commitTime_caiwu = #{commitTime_caiwu}
+		where 1=1 and dr = 0 
+		<![CDATA[and studentId in(${studentIds})]]> 
+	</update>
+	
+	<!-- 查询重复的身份证号 网络培训费学员-->
+	<select id="queryRepeatStudentsfalse" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select  idCard,
+		       count(idCard) count1
+		from hj_student 
+		where 1=1 and dr = 0 
+			and ishavenetedu = 1  and source not in(9)
+			and studentstate in(3,4,5,6,7)
+			and idCard is not null
+		group by idCard 
+		having count1>= 2 order by idCard
+	</select>
+	
+	<!-- 根据身份证号，查询重复的网络培训费学员列表详细信息-->
+	<select id="queryRepeatStudentstrue" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		 select
+			s.*
+		from hj_student s
+		where 1=1 and s.dr = 0
+		<![CDATA[and s.idCard in(${idCard})]]>
+		order by idCard  
+	</select>
+	
+	
+	<!-- 查询所有客服人员 -->
+	<select id="queryAllCustoms" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+	 	 select * from hj_user u where 1=1 and u.dr = 0 and u.deptid in(17,18,19,20) 
+	</select>
+	
+	<!-- 查询客服人员（行政部专用） -->
+	<select id="queryxzCustoms" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+	 	 select * from hj_user u where 1=1 and u.dr = 0 and u.deptid in(17,18,19,20) and u.roleid in (20,21,22,23,24,26)
+	</select>
+	
+	
+	<!-- 查询到账信息列表导出数据 -->
+	 <select id="queryStudentsExport" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+			s.*,u.username belongName,
+			d.dealrecordId,d.subjectid, 
+			c.courseName  courseName,s.dealprice,s.dealtime,
+			
+		 	group_concat(case when d.subjectid in (1,2) or dd.subjectid in (1,2)  then (case when d.ispass is null then dd.ispass else d.ispass end ) end) as afp,
+			group_concat(case when d.subjectid in (3,8) or dd.subjectid in (3,8)  then(case when d.ispass is null then dd.ispass else d.ispass end )end) as touzi,
+			group_concat(case when d.subjectid in (4,9) or dd.subjectid in (4,9)  then (case when d.ispass is null then dd.ispass else d.ispass end) end) as baoxian,
+			group_concat(case when d.subjectid in (5,10) or dd.subjectid in (5,10)  then (case when d.ispass is null then dd.ispass else d.ispass end)end) as shuiwu,
+			group_concat(case when d.subjectid in (6,11)or dd.subjectid in (6,11)  then (case when d.ispass is null then dd.ispass else d.ispass end) end) as fuli,
+			group_concat(case when d.subjectid in (7,12)or dd.subjectid in (7,12)   then (case when d.ispass is null then dd.ispass else d.ispass end)end)   as zonghe,
+			group_concat(case when d.subjectid in (31) or dd.subjectid in (31)  then (case when d.ispass is null then dd.ispass else d.ispass end) end)   as cjfg,
+			group_concat(case when d.subjectid in (30) or dd.subjectid in (30)  then (case when d.ispass is null then dd.ispass else d.ispass end) end) as kjjc,
+			
+			group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from  hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		where 1=1 and s.dr = 0 and s.studentstate in (3,4,5,6,7) and s.isOnlineBuy!=1
+		<if test="studentIds != null and studentIds != ''">
+			<![CDATA[and s.studentId in(${studentIds})]]> 
+		</if>
+		group by s.studentId ,s.resourceId 
+ 
+	 </select>
+
+	 <!-- 批量修改颜色 -->
+	<update id="studentColorSign" parameterType="java.util.Map">
+		update hj_student set studentColor = #{studentColor} 
+		where 1=1 and dr = 0 
+		<![CDATA[and studentId in(${studentIds})]]> 
+	</update>
+	
+	<!-- -->
+	<select id="queryStudentByphone" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+	 	 select * from hj_student s where 1=1 and s.dr = 0 and s.phone = #{phone} and s.isolddata = 109
+	 	 order by s.studentId desc 
+	</select>
+	
+	<update id="updateispass" parameterType="java.util.Map">
+		 update hj_student set ispass = 1,studentstate=6 where 1=1 and isolddata = 51 and studentId = #{studentIds} 
+	</update>
+	 <update id="updatedcispass" parameterType="java.util.Map">
+		 update hj_dealrecord set ispass = 1 where 1=1 and studentId = #{studentIds}
+	</update>
+	
+</mapper> 

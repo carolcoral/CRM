@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!-- 查询所有课程 -->
+	<select id="queryCourse" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Course">
+		 select * from hj_course c where 1=1 and c.dr = 0
+	</select>
+	<!-- 查询所有课程 -->
+	<select id="queryCourseById" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Course">
+		 select * from hj_course c where 1=1 and c.dr = 0 and  c.courseid = #{paramter} 
+	</select>
+	
+	<!-- 根据课程ID删除课程场景 -->
+	<delete id="deletePattertype" parameterType="java.util.Map">
+		 delete  from hj_pattertype  where 1=1 and dr = 0 and  courseid = #{courseid}
+	</delete>
+	
+	<!-- 查询科目 -->
+	<select id="querySubject" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Subject">
+		 select 
+			s.subjectid,s.courseid,s.subjectname,s.subjectcode,s.create_id,s.create_time,s.update_id,s.update_time,s.note,
+			(select c.coursename from hj_course c where 1=1 and c.dr = 0 and c.courseid = s.courseid) coursename
+		from hj_subject s
+		where 1=1 and s.dr = 0
+		<if test="courseid != null">
+		 	and s.courseid = #{courseid}
+		 </if>
+	</select>
+	
+	<!--  根据课程ID，查询科目，用逗号隔开-->
+	<select id="querySubjectByCourseId" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Subject">
+		select c.courseName coursename,
+			 group_concat(s.subjectname separator '、') subjectname
+			 from hj_subject s
+			 left join hj_course c on c.courseid = s.courseid
+			 where 1=1 and s.dr = 0
+		 and s.courseid = #{paramter} 
+	</select>
+	
+</mapper> 

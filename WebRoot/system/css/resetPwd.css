@@ -1,0 +1,192 @@
+@charset "UTF-8";
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%; }
+
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, video, source {
+  -webkit-tap-highlight-color: transparent;
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+img {
+  max-width: 100%;
+  height: auto;
+  width: auto\9;
+  -ms-interpolation-mode: bicubic; }
+
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: "Microsoft Yahei","Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif; }
+
+body {
+  font-family: Microsoft YaHei,Tahoma,Arial,sans-serif;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch; }
+
+em, i {
+  font-style: normal; }
+
+strong {
+  font-weight: normal; }
+b {
+	font-weight: 100 !important;
+}
+.clearfix:after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both; }
+
+.clearfix {
+  zoom: 1; }
+
+a {
+  text-decoration: none;
+  font-family: "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;  
+  outline: none; 
+  outline-style:none;
+ }
+
+a:hover, a:active,a:link {
+  text-decoration: none; }
+ul, ol {
+  list-style: none; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%; }
+
+img {
+  border: none;
+  display: block;
+  width: 100%; }
+
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+	border: 1px solid #ccc !important;
+}
+
+textarea {
+  resize: none; }
+html {
+	height: 100%;
+}
+body {	
+	background: #efefef;
+}
+.header {
+	width: 100%;
+	height: 73px;
+	background: #4c7cba;
+}
+.head {
+	width: 1200px;
+	margin: 0 auto;
+	height: 73px;
+	background: #4c7cba;
+}
+.logo {
+	width: 466px;
+	height: 37px;
+	padding-top: 18px;
+	float: left;
+}
+.login {
+	float: right;
+    height: 73px;
+    line-height: 73px;
+    color: #fff;
+    font-size: 20px;
+}
+.emailWrap {
+	width: 850px;
+	overflow: hidden;
+	background: #fff;
+	margin: 100px auto 0;
+}
+.tit {
+	color: #868686;
+	font-size: 26px;
+	font-weight: 100;
+	height: 90px;
+    line-height: 90px;
+    text-align: center;
+    border-bottom: 1px solid #d7d7d7;
+}
+.prossess {
+	width: 592px;
+	height: 51px;
+	margin: 55px auto;
+}
+.input-group {
+	width: 500px;
+	height: 48px;
+	margin: 0 auto;
+	position: relative;
+	margin-top: 20px;
+}
+.input-group label{
+	color: #868686;
+	font-size: 16px;
+	font-weight: 100;	
+}
+.text {
+	width: 380px;
+	height: 48px;
+	border: 1px solid #a7b9c2;
+	border-radius: 5px;
+}
+.huajin {
+    position: absolute;
+    right: 30px;
+    top: 3px;
+    font-size: 18px;
+    height: 43px;
+    background: #fff;
+    line-height: 44px;
+    color: #646464;
+}
+.error {
+	color: #f00;
+	margin-top: 10px;
+	text-align: center;
+	font-size: 12px;
+}
+.send {
+	margin: 60px auto;
+	text-align: center;
+}
+.send a {
+	color: #fff;
+	font-size: 18px;
+	background: #f1740e;
+	padding: 8px 10px;
+	border-radius: 5px;
+	text-align: center;
+}
+.footer {
+	margin-top :120px;
+}
+.footer p{
+	font-size: 14px;
+	line-height: 28px;
+	color: #444;
+	text-align: center;
+	margin: 0px 20px 30px;
+}
+.footer p a {
+	color: #295fb3;
+	margin: 0px 20px;
+}
+.finishTip {
+	text-align: center;
+    color: #f01b1b;
+}
+
+

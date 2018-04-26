@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!--查询最近一条发布信息-->
+	<select id="querySystemmessageSend" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Systemmessage">
+		select
+			*
+		from hj_systemmessage s 
+		where 1=1 and s.issend = 1 
+		order by s.create_time desc
+	</select>
+	
+	<!--查询所有信息-->
+	<select id="querySystemmessages" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Systemmessage">
+		select
+			*
+		from hj_systemmessage s 
+		where 1=1  
+		order by s.create_time desc
+	</select>
+	
+	<!-- 发布或者撤回消息 -->
+	<update id="sendMessage" parameterType="java.util.Map">
+		update hj_systemmessage set issend = #{issend} ,send_time =#{send_time}
+		where 1=1 
+		<![CDATA[and systemmessageId in(${systemmessageId})]]> 
+	</update>
+	
+</mapper> 

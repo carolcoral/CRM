@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+		
+	<!-- 查询总表学员数据财务部 -->
+	 <select id="queryStudentscaiwu" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+			s.*,u.username belongName,
+			d.dealrecordId,d.subjectid, 
+			c.courseName  courseName,s.dealprice,s.dealtime,
+			
+		 	group_concat(case when d.subjectid in (1,2) or dd.subjectid in (1,2)  then (case when d.ispass is null then dd.ispass else d.ispass end ) end) as afp,
+			group_concat(case when d.subjectid in (3,8) or dd.subjectid in (3,8)  then(case when d.ispass is null then dd.ispass else d.ispass end )end) as touzi,
+			group_concat(case when d.subjectid in (4,9) or dd.subjectid in (4,9)  then (case when d.ispass is null then dd.ispass else d.ispass end) end) as baoxian,
+			group_concat(case when d.subjectid in (5,10) or dd.subjectid in (5,10)  then (case when d.ispass is null then dd.ispass else d.ispass end)end) as shuiwu,
+			group_concat(case when d.subjectid in (6,11)or dd.subjectid in (6,11)  then (case when d.ispass is null then dd.ispass else d.ispass end) end) as fuli,
+			group_concat(case when d.subjectid in (7,12)or dd.subjectid in (7,12)   then (case when d.ispass is null then dd.ispass else d.ispass end)end)   as zonghe,
+			group_concat(case when d.subjectid in (31) or dd.subjectid in (31)  then (case when d.ispass is null then dd.ispass else d.ispass end) end)   as cejing,
+			group_concat(case when d.subjectid in (30) or dd.subjectid in (30)  then (case when d.ispass is null then dd.ispass else d.ispass end) end) as kuaiji,
+			
+			group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from  hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		where 1=1 and s.dr = 0 and s.studentstate in (3,4,5,6,7)
+		<if test="phone != null and phone !='' ">
+				and s.phone=#{phone}
+		</if>
+		<if test="studentIds != null">
+			<![CDATA[and s.studentId in(${studentIds})]]> 
+		</if>
+		<if test="arriveStartTime != null and arriveStartTime !='' ">
+			<![CDATA[ and s.arrive_time >= #{arriveStartTime}]]> 
+		</if>
+		<if test="arriveEndTime != null and arriveEndTime !='' ">
+				<![CDATA[ and s.arrive_time <= #{arriveEndTime}]]> 
+		</if>
+		<if test="remitWay != null and remitWay !='' ">
+				and s.remitWay like concat('%','${remitWay}','%')
+		</if>
+		<if test="remituser != null and remituser !='' ">
+				and s.remituser like concat('%','${remituser}','%')
+		</if>
+		<if test="studentName != null and studentName !='' ">
+				and s.studentName like concat('%','${studentName}','%')
+		</if>
+		<if test="idCard != null and idCard !='' ">
+				and s.idCard=#{idCard}
+		</if>
+		<if test="belongid != null and belongid !='' ">
+				and s.belongid=#{belongid}
+		</if>
+		<if test="courseid != null and courseid !='' ">
+				and s.courseid=#{courseid}
+		</if>
+		group by s.studentId ,s.resourceId 
+ 		order by s.commit_time desc
+	 </select>
+	 
+	 
+	 <!-- 用户录入统全部-->
+	 <select id="queryUserAddCountAll" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		 
+		select u.username,u.userid,
+			 (select count(1) from  hj_resource r where 1=1 and r.dr = 0 and r.isolddata = 0 
+			 and r.userid = u.userid ) 
+			 + 
+			 (select count(1) from hj_student s where 1=1 and s.dr = 0 and s.isolddata = 0 
+			 and s.userid = u.userid and s.resourceId is null) addCount
+		from hj_user u 
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by addCount desc 
+ 
+	 </select>
+	 
+	 <!--用户录入统计本月-->
+	 <select id="queryUserAddCountMoth" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select u.username,u.userid,
+			 (select count(1) from  hj_resource r where 1=1 and r.dr = 0 and r.isolddata = 0 
+			 and r.userid = u.userid and date_format(r.create_time,'%Y-%m')=date_format(now(),'%Y-%m') ) 
+			 + 
+			 (select count(1) from hj_student s where 1=1 and s.dr = 0 and s.isolddata = 0 
+			 and s.userid = u.userid and s.resourceId is null and date_format(s.create_time,'%Y-%m')=date_format(now(),'%Y-%m')) addCount
+		from hj_user u 
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by addCount desc 
+	 </select>
+	 
+	 <!--用户录入统计本周-->
+	 <select id="queryUserAddCountWeek" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select u.username,u.userid,
+			(select count(1) from  hj_resource r where 1=1 and r.dr = 0 and r.isolddata = 0 
+			and r.userid = u.userid and yearweek(date_format(r.create_time,'%Y-%m-%d')) = yearweek(now())) 
+					 + 
+			(select count(1) from hj_student s where 1=1 and s.dr = 0 and s.isolddata = 0 
+		and s.userid = u.userid and s.resourceId is null and yearweek(date_format(s.create_time,'%Y-%m-%d')) = yearweek(now())) addCount
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by addCount desc 
+	 </select>
+	 
+	 
+	 
+	 <!-- 用户录入统计今日-->
+	 <select id="queryUserAddCountToday" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select u.username,u.userid,
+			 (select count(1) from  hj_resource r where 1=1 and r.dr = 0 and r.isolddata = 0 
+			 and r.userid = u.userid and to_days(r.create_time)=to_days(now()) ) 
+			 + 
+			 (select count(1) from hj_student s where 1=1 and s.dr = 0 and s.isolddata = 0 
+			 and s.userid = u.userid and s.resourceId is null and to_days(s.create_time)=to_days(now())) addCount
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by addCount desc 
+	 </select>
+	 
+	 <!-- 按照时间条件进行选取-->
+	 <select id="queryUserAddCountTime" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select u.username,u.userid,
+		       (select count(1) from  hj_resource r where 1=1 and r.dr = 0 and r.isolddata = 0 
+			and r.userid = u.userid and date_format(r.create_time,'%Y-%m-%d') =  #{countTime} ) 
+			+ 
+		       (select count(1) from hj_student s where 1=1 and s.dr = 0 and s.isolddata = 0 
+			and s.userid = u.userid and s.resourceId is null and date_format(s.create_time,'%Y-%m-%d') = #{countTime}  ) addCount
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by addCount desc
+	 </select>
+	 
+	 <!--总业绩 -->
+	 <select id="queryPerformanceAll" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+	 	select u.username,u.userid,
+			(select  case when sum(s.dealprice) is null then 0 else sum(s.dealprice) end    from hj_student s where 1=1 and s.dr = 0 
+				and (s.belongid = u.userid) and s.create_time >= '2017-01-01'
+			and s.studentstate in(3,4,5,6,7) and s.isolddata = 0) sumMoney 
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by sumMoney desc
+	 </select>
+	 
+	  <!--非AC总业绩 -->
+	 <select id="queryPerformanceAllnotAC" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+	 	select u.username,u.userid,
+			(select  case when sum(s.dealprice) is null then 0 else sum(s.dealprice) end    from hj_student s where 1=1 and s.dr = 0 
+				and (s.belongid = u.userid) and s.create_time >= '2017-01-01' AND s.courseid NOT IN(1,2,3,4)
+			and s.studentstate in(3,4,5,6,7) and s.isolddata = 0) sumMoney 
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by sumMoney desc
+	 </select>
+	 
+	 <!--本月业绩 -->
+	 <select id="queryPerformanceTodayMoth" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		 select u.username,u.userid,
+			(select  case when sum(s.dealprice) is null then 0 else sum(s.dealprice) end    from hj_student s where 1=1 and s.dr = 0 
+				and (s.belongid = u.userid) and date_format(s.create_time,'%Y-%m')=date_format(now(),'%Y-%m') 
+			and s.studentstate in(3,4,5,6,7) and s.isolddata = 0) sumMoney
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by sumMoney desc
+ 
+	 </select>
+	 
+	 <!--非AC本月业绩 -->
+	 <select id="queryPerformanceTodayMothnotAC" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		 select u.username,u.userid,
+			(select  case when sum(s.dealprice) is null then 0 else sum(s.dealprice) end    from hj_student s where 1=1 and s.dr = 0 
+				and (s.belongid = u.userid) and date_format(s.create_time,'%Y-%m')=date_format(now(),'%Y-%m')  AND s.courseid NOT IN(1,2,3,4)
+			and s.studentstate in(3,4,5,6,7) and s.isolddata = 0) sumMoney
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by sumMoney desc
+ 
+	 </select>
+	 
+	  <!--本周业绩 -->
+	 <select id="queryPerformanceTodayWeek" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		SELECT u.username,u.userid,
+			(SELECT  CASE WHEN SUM(s.dealprice) IS NULL THEN 0 ELSE SUM(s.dealprice) END    FROM hj_student s WHERE 1=1 AND s.dr = 0 
+				AND (s.belongid = u.userid) AND YEARWEEK(DATE_FORMAT(s.create_time,'%Y-%m-%d')) = YEARWEEK(NOW())
+			AND s.studentstate IN(3,4,5,6,7) AND s.isolddata = 0) sumMoney
+		FROM hj_user u
+		WHERE 1=1 AND u.deptid IN(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		GROUP BY u.userid
+		ORDER BY sumMoney DESC
+ 
+	 </select>
+	 
+	  <!--非AC本周业绩 -->
+	 <select id="queryPerformanceTodayWeeknotAC" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		SELECT u.username,u.userid,
+			(SELECT  CASE WHEN SUM(s.dealprice) IS NULL THEN 0 ELSE SUM(s.dealprice) END    FROM hj_student s WHERE 1=1 AND s.dr = 0 
+				AND (s.belongid = u.userid) AND YEARWEEK(DATE_FORMAT(s.create_time,'%Y-%m-%d')) = YEARWEEK(NOW())  AND s.courseid NOT IN(1,2,3,4)
+			AND s.studentstate IN(3,4,5,6,7) AND s.isolddata = 0) sumMoney
+		FROM hj_user u
+		WHERE 1=1 AND u.deptid IN(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		GROUP BY u.userid
+		ORDER BY sumMoney DESC
+ 
+	 </select>
+	 
+	  <!--昨日业绩 -->
+	 <select id="queryPerformanceYestoday" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		SELECT u.username,u.userid,
+			(SELECT  CASE WHEN SUM(s.dealprice) IS NULL THEN 0 ELSE SUM(s.dealprice) END    FROM hj_student s WHERE 1=1 AND s.dr = 0 
+				AND (s.belongid = u.userid) AND TO_DAYS(NOW()) - TO_DAYS(`create_time`) = 1
+			AND s.studentstate IN(3,4,5,6,7) AND s.isolddata = 0) sumMoney
+		FROM hj_user u
+		WHERE 1=1 AND u.deptid IN(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		GROUP BY u.userid
+		ORDER BY sumMoney DESC
+		
+ 
+	 </select>
+	 
+	   <!--非AC昨日业绩 -->
+	 <select id="queryPerformanceYestodaynotAC" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		SELECT u.username,u.userid,
+			(SELECT  CASE WHEN SUM(s.dealprice) IS NULL THEN 0 ELSE SUM(s.dealprice) END    FROM hj_student s WHERE 1=1 AND s.dr = 0 
+				AND (s.belongid = u.userid) AND TO_DAYS(NOW()) - TO_DAYS(`create_time`) = 1  AND s.courseid NOT IN(1,2,3,4)
+			AND s.studentstate IN(3,4,5,6,7) AND s.isolddata = 0) sumMoney
+		FROM hj_user u
+		WHERE 1=1 AND u.deptid IN(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		GROUP BY u.userid
+		ORDER BY sumMoney DESC
+		
+ 
+	 </select>
+	 
+	 <!--课程区分业绩 -->
+	 <select id="queryPerformanceCourse" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		 select u.username,u.userid,
+			(select  case when sum(s.dealprice) is null then 0 else sum(s.dealprice) end    from hj_student s where 1=1 and s.dr = 0 
+				and (s.belongid = u.userid)  <![CDATA[and  s.courseid in(${courseid})]]> and s.create_time >= '2017-01-01'
+			and s.studentstate in(3,4,5,6,7) and s.isolddata = 0) sumMoney
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by sumMoney desc
+	 </select>
+	 
+	 <!--按照月份查询业绩 -->
+	 <select id="queryPerformanceMoth" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		 select u.username,u.userid,
+			(select  case when sum(s.dealprice) is null then 0 else sum(s.dealprice) end    from hj_student s where 1=1 and s.dr = 0 
+				and (s.belongid = u.userid) and date_format(s.create_time,'%Y-%m') =  #{moth} 
+			and s.studentstate in(3,4,5,6,7) and s.isolddata = 0) sumMoney
+		from hj_user u
+		where 1=1 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,29) and u.state = 0 AND u.userid!=97  and u.userid!=98
+		group by u.userid
+		order by sumMoney desc
+	 </select>
+	 
+	  <!--查询所有销售客服机构代理的提成资源列表 -->
+	 <select id="queryCommissionAll" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+			s.*,d.deptname deptName,u.deptgroup deptgroupName,u.username belongName,u.state userstate
+		from hj_student s
+		left join hj_user u on u.userid = s.belongid
+		left join hj_dept d on d.deptid = u.deptid
+		where 1=1 and s.dr = 0    and s.isolddata = 0 AND u.userid!=97  and u.userid!=98
+		<if test="roleid != null and roleid != '' and roleid == 'false'">
+			and s.belongid = #{userid}
+		</if>
+		<if test="dealStartTime != null and dealStartTime != ''">
+			<![CDATA[ and s.dealTime >= #{dealStartTime}]]> 
+		</if>
+		<if test="dealEndTime != null and dealEndTime != ''">
+			<![CDATA[ and s.dealTime <= #{dealEndTime}]]> 
+		</if>
+		and s.studentstate in(3,4,5,6,7)
+		group by s.studentId
+		order by u.deptgroup ,u.userid,s.courseid
+	 </select>
+	 
+	  <!--根据招生老师ID和课程ID，查询该老师的总成交金额-->
+	 <select id="querydealpriceSum" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		 select sum(dealprice) dealpriceSum 
+		 from hj_student where 1=1 and dr = 0    and isolddata = 0 
+			and studentstate in(3,4,5,6,7) and belongid = #{belongid} 
+			<if test="courseid != null and courseid != '' and courseid == 1">
+				and courseid = 1
+			</if>
+			<if test="courseid != null and courseid != '' and courseid == 2">
+				and courseid > 1
+			</if>
+			<if test="courseid != null and courseid != '' and courseid == 3">
+				and courseid > 4
+			</if>
+			<if test="courseid != null and courseid != '' and courseid == 4">
+				and courseid in(2,3,4)
+			</if>
+			<if test="courseid != null and courseid != '' and courseid == 5">
+				and courseid = 1
+			</if>
+	 </select>
+	 
+	 <!--业绩明细-->
+	 <select id="queryPerformanceDetail" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		 select 
+			u.userid,u.username,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>	
+			),0) priceAll, 
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 1 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceAM,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 2 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>		
+			),0) priceAW,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 3 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>		
+			),0) priceCM,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 4 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceCW,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 5 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceYHCY,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 6 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceJJCJB,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 7 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceJJBGB,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 8 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>		
+			),0) priceJJTFB,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 9 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceJJHFFB,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 10 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceZJJJS,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 11 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceKJCY,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 12 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceCJKJ,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 13 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceQHCY,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 14 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceZQCY,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 15 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceAZTSZB,
+			ifnull((select  sum(s.dealprice)  from hj_student s where 1=1 and s.dr = 0 and s.studentstate in(3,4,5,6,7)
+				and s.belongid = u.userid and s.isolddata = 0 and s.courseid = 19 and s.create_time >= '2017-01-01'
+			<if test="startTime != null and startTime != ''">
+				<![CDATA[ and s.create_time >= '${startTime}']]>  
+			</if>
+			<if test="endTime != null and endTime != ''">
+				<![CDATA[ and s.create_time <= '${endTime}']]>  
+			</if>			
+			),0) priceJJTKB	
+		from hj_user u
+		where 1=1 and u.dr = 0 and u.deptid in(5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20) and u.userid!=97 and u.userid!=98
+		
+		<if test="userid != null and userid != ''">
+				and u.userid = #{userid}
+		</if>
+		<if test="userName != null and userName != ''">
+				and u.userName like concat('%','${userName}','%')
+		</if>
+		
+		order by priceAll desc 
+	 </select>
+</mapper> 

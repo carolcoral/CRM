@@ -1,0 +1,76 @@
+/* 课程管理二级菜单 */
+.wordsNav {
+	width:100%;
+	overflow: hidden;
+	margin: 0 auto;
+}
+.subNav {
+	width:100%;
+	height: 40px;	
+	background: #3d3d3d;
+	display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;/* 子盒子排列的方向 column垂直排列 */
+    flex-direction: row;
+    -webkit-justify-content: space-around;/* 子盒子水平对齐方式 center水平居中; flex-end靠右，flex-end靠左，space-between中间留空， */
+    justify-content: space-around;
+    -webkit-align-items: center;/* 子盒子垂直对齐方式 center垂直居中; flex-end靠右，flex-end靠左，baseline考上， */
+    align-items: center;
+    margin-top: 20px;
+}
+.subNav li{	
+    -webkit-flex: 1;
+    flex: 1;
+    color: #fff;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    cursor: pointer;
+    cursor: pointer;
+}
+.subNav .subactive  {
+	background: #ffc602;
+	color: #666;
+}
+.navMenu {
+	width:100%;
+	height: 40px;	
+	margin: 20px auto;	
+	background: #eee;
+	
+}
+.navMenu ul{
+	display: none;
+}
+.navMenu ul:nth-child(1){
+	display: block;
+}
+.navMenu li {
+	float: left;
+    line-height: 37px;
+    color: #666;
+    margin: 0 20px; 
+    font-size: 14px;
+    cursor: pointer;   
+}
+.navMenu li a {
+	color: #666;
+}
+.navMenu .menuActive {	
+	border-bottom: 3px solid #3d3d3d;
+}
+.addPatter {
+	width: 600px;
+}
+.editor {
+	margin-top: 15px;
+}
+.glyphicon-edit {
+	cursor: pointer;
+}
+.detailsCon{
+    padding: 20px 50px;
+    max-height: 500px;
+    overflow: auto;
+}

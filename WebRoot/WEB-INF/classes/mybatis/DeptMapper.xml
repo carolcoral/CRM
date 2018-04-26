@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!-- 查询所有部门 -->
+	<select id="queryDept" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Dept">
+		select 
+			d.deptid,d.deptparaid,d.deptname,d.deptcode,d.create_id,d.create_time,d.update_id,d.update_time,
+			d.dr,
+			case when d.deptparaid is not null then
+				(select hd.deptname from hj_dept hd where 1=1 and hd.dr = 0 and hd.deptid = d.deptparaid)
+			end deptParaname
+		from hj_dept d 
+		where  1=1 and d.dr = 0
+	</select>
+	
+</mapper> 

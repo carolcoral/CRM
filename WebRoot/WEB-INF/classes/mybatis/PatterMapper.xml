@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!-- 查询话术 -->
+	<select id="queryPatter" parameterType="java.util.Map" resultType="com.hjcrm.patter.entity.Patter">
+		 select 
+				p.patterid,p.userid,p.roleid,p.courseid,p.patterTypeId,p.contentTypeId,p.shortTitle,
+				p.content,p.create_time,p.update_time,p.update_id,p.isshare,p.note,p.dr,
+				u.username username  
+		 from hj_patter p 
+		 left join hj_user u on u.userid = p.userid
+		 where 1=1 and p.dr = 0
+		 <if test="patterTypeId != null">
+		 	and p.patterTypeId = #{patterTypeId}
+		 </if>
+			and (p.isshare = 1 or (p.isshare = 0 and p.userid = #{userid}))
+	</select>
+	
+	<!-- 查询所有课程场景 -->
+	<select id="queryPattertype" parameterType="java.util.Map" resultType="com.hjcrm.patter.entity.Pattertype">
+		 select 
+			pt.patterTypeId,pt.patterTypeName,pt.courseid,pt.create_id,pt.create_time,pt.update_id,pt.update_time,pt.dr 
+		from hj_pattertype pt 
+		where 1=1 and pt.dr = 0
+		 <if test="courseid != null">
+		 	and pt.courseid = #{courseid}
+		 </if>
+	</select>
+	
+	 <!-- 是否共享 -->
+	<update id="updatePatterIsShare" parameterType="java.util.Map">
+		 update hj_patter set isshare = #{isshare} where patterid = #{patterid}
+	</update>
+	 
+	
+</mapper> 

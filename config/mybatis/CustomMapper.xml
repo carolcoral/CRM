@@ -1,0 +1,1029 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+                             
+	<!--客服部专用筛选功能-->
+	 <select id="queryCustomStudentBySceen" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 	uu.username customerName,
+				s.*,u.username belongName,
+				d.dealrecordId,d.subjectid,CASE WHEN d.scoretime IS NULL THEN dd.scoretime ELSE d.scoretime END AS acscoretime,
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        case when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) = 5 then 'C五科' 
+	      	    when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) &lt;&gt; 5 then group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') end as subjectname,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname,
+		        group_concat((case when d.subjectid in(13) or dd.subjectid in (13) then (case when d.score is null then dd.score else d.score end) end ) separator '、') flfgScore,
+				 group_concat((case when d.subjectid in(14)or dd.subjectid in (14) then (case when d.score is null then dd.score else d.score end) end ) separator '、') grlcScore,
+				 group_concat((case when d.subjectid in(15)or dd.subjectid in (15) then (case when d.score is null then dd.score else d.score end) end ) separator '、') fxglScore,
+				 group_concat((case when d.subjectid in(16)or dd.subjectid in (16) then (case when d.score is null then dd.score else d.score end) end ) separator '、') gsxdScore,
+				 group_concat((case when d.subjectid in(17)or dd.subjectid in (17) then (case when d.score is null then dd.score else d.score end) end ) separator '、') grdkScore,
+				 group_concat((case when d.subjectid in(18,20,22,24)or dd.subjectid in (18,20,22,24) then (case when d.score is null then dd.score else d.score end) end ) separator '、') jijin1Score,
+				 group_concat((case when d.subjectid in(19,21,23,25)or dd.subjectid in (19,21,23,25) then (case when d.score is null then dd.score else d.score end) end ) separator '、') jijin2Score,
+				 group_concat((case when d.subjectid in(26)or dd.subjectid in (26) then (case when d.score is null then dd.score else d.score end) end ) separator '、') jjjczdScore,
+				 group_concat((case when d.subjectid in(27)or dd.subjectid in (27) then (case when d.score is null then dd.score else d.score end) end ) separator '、') jrzyScore,
+				 group_concat((case when d.subjectid in(28)or dd.subjectid in (28) then (case when d.score is null then dd.score else d.score end) end ) separator '、') gsglScore,
+				 group_concat((case when d.subjectid in(29)or dd.subjectid in (29) then (case when d.score is null then dd.score else d.score end) end ) separator '、') czssScore,
+				 group_concat((case when d.subjectid in(30)or dd.subjectid in (30) then (case when d.score is null then dd.score else d.score end) end ) separator '、') kjjcScore,
+				 group_concat((case when d.subjectid in(31)or dd.subjectid in (31) then (case when d.score is null then dd.score else d.score end) end ) separator '、') cjfgScore,
+				 group_concat((case when d.subjectid in(32)or dd.subjectid in (32) then (case when d.score is null then dd.score else d.score end) end ) separator '、') cjkjScore,
+				 group_concat((case when d.subjectid in(33)or dd.subjectid in (33) then (case when d.score is null then dd.score else d.score end) end ) separator '、') jjfjcScore,
+				 group_concat((case when d.subjectid in(34)or dd.subjectid in (34) then (case when d.score is null then dd.score else d.score end) end ) separator '、') qhjczsScore,
+				 group_concat((case when d.subjectid in(35)or dd.subjectid in (35) then (case when d.score is null then dd.score else d.score end) end ) separator '、') qhflfgScore,
+				 group_concat((case when d.subjectid in(36)or dd.subjectid in (36) then (case when d.score is null then dd.score else d.score end) end ) separator '、') zqscScore,
+				 group_concat((case when d.subjectid in(37)or dd.subjectid in (37) then (case when d.score is null then dd.score else d.score end) end ) separator '、') jrscScore
+				 ,group_concat(case when (d.subjectid in(3,8)  and d.ispass = 0) or(dd.subjectid in(3,8)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 1) or(dd.subjectid in(3,8)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 2) or(dd.subjectid in(3,8)  and dd.ispass = 2) then '缺考' end) as touzi	
+				,group_concat(case when (d.subjectid in(3,8)) or(dd.subjectid in(3,8)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as touziExamDate
+				
+				,group_concat(case when (d.subjectid in(4,9)  and d.ispass = 0) or (dd.subjectid in(4,9)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 1) or (dd.subjectid in(4,9)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 2) or (dd.subjectid in(4,9)  and dd.ispass = 2) then '缺考' end )as baoxian
+				,group_concat(case when (d.subjectid in(4,9)) or(dd.subjectid in(4,9)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as baoxianExamDate
+				
+				,group_concat(case when (d.subjectid in(5,10) and d.ispass = 0) or (dd.subjectid in(5,10) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(5,10) and d.ispass = 1) or (dd.subjectid in(5,10) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(5,10) and d.ispass = 2) or (dd.subjectid in(5,10) and dd.ispass = 2) then '缺考' end) as shuiwu
+				,group_concat(case when (d.subjectid in(5,10)) or(dd.subjectid in(5,10)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as shuiwuExamDate
+			
+				,group_concat(case when (d.subjectid in(6,11) and d.ispass = 0) or(dd.subjectid in(6,11) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(6,11) and d.ispass = 1) or(dd.subjectid in(6,11) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(6,11) and d.ispass = 2) or(dd.subjectid in(6,11) and dd.ispass = 2) then '缺考' end) as fuli
+				,group_concat(case when (d.subjectid in(6,11)) or(dd.subjectid in(6,11)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as fuliExamDate
+				
+				,group_concat(case when (d.subjectid in(7,12) and d.ispass = 0) or (dd.subjectid in(7,12) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(7,12) and d.ispass = 1) or (dd.subjectid in(7,12) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(7,12) and d.ispass = 2) or (dd.subjectid in(7,12) and dd.ispass = 2) then '缺考' end) as zonghe	
+				,group_concat(case when (d.subjectid in(7,12)) or(dd.subjectid in(7,12)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as zongheExamDate
+	
+	
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId   
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.belongid
+		left join hj_user uu on uu.userid = s.customerId
+		where 1=1 and s.dr = 0
+		<if test="menuCode != null and menuCode != '' and menuCode == 'AFPtotal'">
+			and s.courseid in (1,2,17) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'AFPhf'">
+			and s.courseid in (1,2,17) and s.studentstate in (5) and s.customerId = #{userid}
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'CFPtotal'">
+			and s.courseid in (3,4,18) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'CFPhf'">
+			and s.courseid in (3,4,18) and s.studentstate in (5) and s.customerId = #{userid}
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'jijintotal'">
+			and s.courseid in (6,7,8,9,19,20) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'jijinhf'">
+			and s.courseid in (6,7,8,9,19,20) and s.studentstate in (5) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'yincongtotal'">
+			and s.courseid in (5) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'yinconghf'">
+			and s.courseid in (5) and s.studentstate in (5) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'zhongjitotal'">
+			and s.courseid in (10) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'zhongjihf'">
+			and s.courseid in (10) and s.studentstate in (5) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'zhengquantotal'">
+			and s.courseid in (14) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'zhengquanhf'">
+			and s.courseid in (14) and s.studentstate in (5) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'qihuototal'">
+			and s.courseid in (13) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'qihuohf'">
+			and s.courseid in (13) and s.studentstate in (5) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'kuaijitotal'">
+			and s.courseid in (11) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'kuaijihf'">
+			and s.courseid in (11) and s.studentstate in (5) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'chujitotal'">
+			and s.courseid in (12) and s.studentstate in (4,5,6,7) 
+		</if>
+		<if test="menuCode != null and menuCode != '' and menuCode == 'chujihf'">
+			and s.courseid in (12) and s.studentstate in (5) 
+		</if>
+		
+		<if test="studentName != null and studentName != ''">
+	 		and ((s.studentName  like concat('%','${studentName}','%') or s.phone like concat('%','${studentName}','%') or s.idCard like concat('%','${studentName}','%'))
+	 			)
+	 	</if>
+	 	<if test="idCard != null and idCard !=''">
+	 		and ((s.studentName  like concat('%','${idCard}','%') or s.phone like concat('%','${idCard}','%') or s.idCard like concat('%','${idCard}','%'))
+	 			)
+	 	</if>
+	 	<if test="phone != null and phone != ''">
+	 		and ( (s.studentName  like concat('%','${phone}','%') or s.phone like concat('%','${phone}','%') or s.idCard  like concat('%','${phone}','%'))
+	 			)
+	 	</if>
+		<if test="studentEvaluate != null  and studentEvaluate != ''">
+	 		and s.studentEvaluate=#{studentEvaluate}
+	 	</if>
+		<if test="source != null">
+	 		and s.source=#{source}
+	 	</if>
+	 	<if test="studentstate != null">
+	 		and s.studentstate=#{studentstate}
+	 	</if>
+	 	<if test="banci != null and banci != ''">
+	 	<![CDATA[ and s.banci like concat('%','${banci}','%')]]> 
+	 	</if>
+	 	<if test="kefuNote1 != null and kefuNote1 != ''">
+	 	<![CDATA[ and s.kefuNote1 like concat('%','${kefuNote1}','%')]]> 
+	 	</if>
+	 	<if test="company != null and company != ''">
+	 		and s.company=#{company}
+	 	</if>
+	 	<if test="scoretime != null and scoretime != ''">
+	 		<![CDATA[ and (d.scoretime like concat('%','${scoretime}','%') or dd.scoretime like concat('%','${scoretime}','%')) ]]> 
+	 	</if>
+	 	<if test="mailTime != null and mailTime != ''">
+	 		<![CDATA[ and s.mailTime like concat('%','${mailTime}','%')]]> 
+	 	</if>
+	 	<if test="arrive_time != null and arrive_time != ''">
+	 		<![CDATA[ and s.arrive_time <= #{arrive_time}]]> 
+	 	</if>
+	 	<if test="matchinfoStarttime != null and matchinfoStarttime != ''">
+	 		<![CDATA[ and s.arrive_time >= #{matchinfoStarttime}]]> 
+	 	</if>
+	 	<if test="matchinfoEndtime != null and matchinfoEndtime != ''">
+	 		<![CDATA[ and s.arrive_time <= #{matchinfoEndtime}]]> 
+	 	</if>
+	 	
+	 	<if test="mailStartTime != null and mailStartTime != ''">
+	 		<![CDATA[ and s.mailTime >= #{mailStartTime}]]> 
+	 	</if>
+	 	<if test="mailEndTime != null and mailEndTime != ''">
+	 		<![CDATA[ and s.mailTime <= #{mailEndTime}]]> 
+	 	</if>
+	 	
+	 	<if test="examStartTime != null and examStartTime != ''">
+	 		<![CDATA[ and (d.scoretime >= #{examStartTime} or dd.scoretime >=#{examStartTime}) ]]> 
+	 	</if>
+	 	<if test="examEndTime != null and examEndTime != ''">
+	 		<![CDATA[ and (d.scoretime <= #{examEndTime} or dd.scoretime <=#{examEndTime}) ]]> 
+	 	</if>
+	 	
+	 	<if test="studentColor != null and studentColor != ''">
+	 		and s.studentColor=#{studentColor}
+	 	</if>
+	 	<if test="classNum != null and classNum != ''">
+	 		and s.classNum=#{classNum}
+	 	</if>
+	 	<if test="courseversion != null and courseversion != ''">
+	 		and s.courseversion=#{courseversion}
+	 	</if>
+		<if test="belongid != null">
+	 		and s.belongid = #{belongid}
+	 	</if>
+	 	<if test="courseid != null">
+	 		and d.courseid=#{courseid}
+	 	</if>
+	 	<if test="ispass != null">
+	 		and s.ispass=#{ispass}
+	 	</if>
+	 	<if test="ispass1 != null and ispass1 !=''">
+	 		and (d.subjectid in(18,20,22,24) or dd.subjectid in (18,20,22,24)) and (d.ispass=#{ispass1} or dd.ispass=#{ispass1})
+	 	</if>
+	 	<if test="ispass2 != null and ispass2 !=''">
+	 		and (d.subjectid in(19,21,23,25) or dd.subjectid in (19,21,23,25)) and (d.ispass=#{ispass2} or dd.ispass=#{ispass2})
+	 	</if>
+	 	<if test="customerId != null and customerId != ''">
+	 		and s.customerId=#{customerId}
+	 	</if>
+	 	
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==25 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==53 ">
+				and ( s.customerId = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 17) )
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 18))
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==24 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 19))
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>			
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc 
+	 </select>
+	 
+	 
+	 <!-- 特殊情况学员 -->
+	 <select id="querySpecialStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		  select 
+				s.*,u.username customerName,
+				uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        case when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) = 5 then 'C五科' 
+	      	    when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) &lt;&gt; 5 then group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') end as subjectname
+				,group_concat(case when (d.subjectid in(3,8)  and d.ispass = 0) or(dd.subjectid in(3,8)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 1) or(dd.subjectid in(3,8)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 2) or(dd.subjectid in(3,8)  and dd.ispass = 2) then '缺考' end) as touzi	
+				,group_concat(case when (d.subjectid in(3,8)) or(dd.subjectid in(3,8)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as touziExamDate
+				
+				,group_concat(case when (d.subjectid in(4,9)  and d.ispass = 0) or (dd.subjectid in(4,9)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 1) or (dd.subjectid in(4,9)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 2) or (dd.subjectid in(4,9)  and dd.ispass = 2) then '缺考' end )as baoxian
+				,group_concat(case when (d.subjectid in(4,9)) or(dd.subjectid in(4,9)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as baoxianExamDate
+				
+				,group_concat(case when (d.subjectid in(5,10) and d.ispass = 0) or (dd.subjectid in(5,10) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(5,10) and d.ispass = 1) or (dd.subjectid in(5,10) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(5,10) and d.ispass = 2) or (dd.subjectid in(5,10) and dd.ispass = 2) then '缺考' end) as shuiwu
+				,group_concat(case when (d.subjectid in(5,10)) or(dd.subjectid in(5,10)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as shuiwuExamDate
+			
+				,group_concat(case when (d.subjectid in(6,11) and d.ispass = 0) or(dd.subjectid in(6,11) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(6,11) and d.ispass = 1) or(dd.subjectid in(6,11) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(6,11) and d.ispass = 2) or(dd.subjectid in(6,11) and dd.ispass = 2) then '缺考' end) as fuli
+				,group_concat(case when (d.subjectid in(6,11)) or(dd.subjectid in(6,11)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as fuliExamDate
+				
+				,group_concat(case when (d.subjectid in(7,12) and d.ispass = 0) or (dd.subjectid in(7,12) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(7,12) and d.ispass = 1) or (dd.subjectid in(7,12) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(7,12) and d.ispass = 2) or (dd.subjectid in(7,12) and dd.ispass = 2) then '缺考' end) as zonghe	
+				,group_concat(case when (d.subjectid in(7,12)) or(dd.subjectid in(7,12)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as zongheExamDate
+	
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0  and (s.specialinfo is not null and s.specialinfo &lt;&gt; '') 
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+			and s.courseid in(1,2,17)	and  ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+			and s.courseid in(1,2,17)	and  ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19">
+			and s.courseid in(3,4,18)	and  ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+			and s.courseid in(6,7,8,9,19,10,11,14)	and  ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+			and s.courseid in(6,7,8,9,19,5,13,14)	and  ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+			and s.courseid in(6,7,8,9,19,10)	and  ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+			and s.courseid in(6,7,8,9,19,5)	and  ( s.customerId = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and s.courseid in(1,2,17) and ( s.customerId in(select userid from hj_user where deptid = 17) )
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and s.courseid in(1,2,17) and ( s.customerId in(select userid from hj_user where deptid = 18))
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and s.courseid in(6,7,8,9,19,5,10,11,12,13,14) and ( s.customerId in(select userid from hj_user where deptid = 20) )
+		</if>
+		
+		<if test="studentName != null and studentName != ''">
+	 		and ((s.studentName  like concat('%','${studentName}','%') or s.phone = #{studentName} or s.idCard = #{studentName})
+	 			)
+	 	</if>
+	 	<if test="idCard != null and idCard !=''">
+	 		and ((s.studentName  like concat('%','${idCard}','%') or s.phone = #{idCard} or s.idCard = #{idCard})
+	 			)
+	 	</if>
+	 	<if test="phone != null and phone != ''">
+	 		and ( (s.studentName  like concat('%','${phone}','%') or s.phone = #{phone} or s.idCard = #{phone})
+	 			)
+	 	</if>
+		
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+ 
+	 </select>
+	 
+	  <!-- 通过学员表 -->
+	 <select id="customQueryPassStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		 select 
+				s.*,u.username customerName,
+				uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        case when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) = 5 then 'C五科' 
+	      	    when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) &lt;&gt; 5 then group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') end as subjectname
+				,group_concat(case when (d.subjectid in(3,8)  and d.ispass = 0) or(dd.subjectid in(3,8)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 1) or(dd.subjectid in(3,8)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 2) or(dd.subjectid in(3,8)  and dd.ispass = 2) then '缺考' end) as touzi	
+				,group_concat(case when (d.subjectid in(3,8)) or(dd.subjectid in(3,8)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as touziExamDate
+				
+				,group_concat(case when (d.subjectid in(4,9)  and d.ispass = 0) or (dd.subjectid in(4,9)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 1) or (dd.subjectid in(4,9)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 2) or (dd.subjectid in(4,9)  and dd.ispass = 2) then '缺考' end )as baoxian
+				,group_concat(case when (d.subjectid in(4,9)) or(dd.subjectid in(4,9)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as baoxianExamDate
+				
+				,group_concat(case when (d.subjectid in(5,10) and d.ispass = 0) or (dd.subjectid in(5,10) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(5,10) and d.ispass = 1) or (dd.subjectid in(5,10) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(5,10) and d.ispass = 2) or (dd.subjectid in(5,10) and dd.ispass = 2) then '缺考' end) as shuiwu
+				,group_concat(case when (d.subjectid in(5,10)) or(dd.subjectid in(5,10)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as shuiwuExamDate
+			
+				,group_concat(case when (d.subjectid in(6,11) and d.ispass = 0) or(dd.subjectid in(6,11) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(6,11) and d.ispass = 1) or(dd.subjectid in(6,11) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(6,11) and d.ispass = 2) or(dd.subjectid in(6,11) and dd.ispass = 2) then '缺考' end) as fuli
+				,group_concat(case when (d.subjectid in(6,11)) or(dd.subjectid in(6,11)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as fuliExamDate
+				
+				,group_concat(case when (d.subjectid in(7,12) and d.ispass = 0) or (dd.subjectid in(7,12) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(7,12) and d.ispass = 1) or (dd.subjectid in(7,12) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(7,12) and d.ispass = 2) or (dd.subjectid in(7,12) and dd.ispass = 2) then '缺考' end) as zonghe	
+				,group_concat(case when (d.subjectid in(7,12)) or(dd.subjectid in(7,12)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as zongheExamDate
+	
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0  and s.studentstate in(6) and (s.specialinfo is  null or s.specialinfo = '') 
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+			and s.courseid in(1,2,17)	and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+			and s.courseid in(1,2,17)	and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19">
+			and s.courseid in(3,4,18)	and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+			and s.courseid in(6,7,8,9,19,10,11,14)	and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+			and s.courseid in(6,7,8,9,19,5,13,14)	and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+			and s.courseid in(6,7,8,9,19,10)	and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+			and s.courseid in(6,7,8,9,19,5)	and (s.customerId = #{userid})
+		</if>
+		
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and s.courseid in(1,2,17) and ( s.customerId in(select userid from hj_user where deptid = 17))
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and s.courseid in(1,2,17) and ( s.customerId in(select userid from hj_user where deptid = 18) )
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and s.courseid in(6,7,8,9,19,5,10,11,12,13,14) and ( s.customerId in(select userid from hj_user where deptid = 20) )
+		</if>
+		
+		<if test="studentName != null and studentName != ''">
+	 		and ((s.studentName  like concat('%','${studentName}','%') or s.phone = #{studentName} or s.idCard = #{studentName})
+	 			)
+	 	</if>
+	 	<if test="idCard != null and idCard !=''">
+	 		and ((s.studentName  like concat('%','${idCard}','%') or s.phone = #{idCard} or s.idCard = #{idCard})
+	 			)
+	 	</if>
+	 	<if test="phone != null and phone != ''">
+	 		and ( (s.studentName  like concat('%','${phone}','%') or s.phone = #{phone} or s.idCard = #{phone})
+	 			)
+	 	</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+ 
+	 </select>
+	 
+	
+	<!-- 查询AFP总表学员(客服) -->
+	<select id="queryAFPTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, CASE WHEN d.scoretime IS NULL THEN dd.scoretime ELSE d.scoretime END AS acscoretime,
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(1,2,17) and s.studentstate in(4,5,6,7)
+			
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 17) )
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 18))
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.studentstate,s.arrive_time desc
+	</select>
+	
+	<!-- 查询AFP回访学员(客服) -->
+	<select id="queryAFPhfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid,
+				CASE WHEN d.scoretime IS NULL THEN dd.scoretime ELSE d.scoretime END AS acscoretime,
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(1,2,17) and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 17 and roleid ==21 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==23 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 17 and roleid ==20 ">
+			and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 18 and roleid ==22 ">
+			and (s.customerId = #{userid})
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.studentstate,s.dealtime desc
+	</select>
+	
+	<!-- 查询CFP总表学员(客服) -->
+	<select id="queryCFPTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, CASE WHEN d.scoretime IS NULL THEN dd.scoretime ELSE d.scoretime END AS acscoretime,
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        case when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) = 5 then 'C五科' 
+	      	    when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) &lt;&gt; 5 then group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') end as subjectname
+		        ,group_concat(case when (d.subjectid in(3,8)  and d.ispass = 0) or(dd.subjectid in(3,8)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 1) or(dd.subjectid in(3,8)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 2) or(dd.subjectid in(3,8)  and dd.ispass = 2) then '缺考' end) as touzi	
+				,group_concat(case when (d.subjectid in(3,8)) or(dd.subjectid in(3,8)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as touziExamDate
+				
+				,group_concat(case when (d.subjectid in(4,9)  and d.ispass = 0) or (dd.subjectid in(4,9)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 1) or (dd.subjectid in(4,9)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 2) or (dd.subjectid in(4,9)  and dd.ispass = 2) then '缺考' end )as baoxian
+				,group_concat(case when (d.subjectid in(4,9)) or(dd.subjectid in(4,9)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as baoxianExamDate
+				
+				,group_concat(case when (d.subjectid in(5,10) and d.ispass = 0) or (dd.subjectid in(5,10) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(5,10) and d.ispass = 1) or (dd.subjectid in(5,10) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(5,10) and d.ispass = 2) or (dd.subjectid in(5,10) and dd.ispass = 2) then '缺考' end) as shuiwu
+				,group_concat(case when (d.subjectid in(5,10)) or(dd.subjectid in(5,10)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as shuiwuExamDate
+			
+				,group_concat(case when (d.subjectid in(6,11) and d.ispass = 0) or(dd.subjectid in(6,11) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(6,11) and d.ispass = 1) or(dd.subjectid in(6,11) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(6,11) and d.ispass = 2) or(dd.subjectid in(6,11) and dd.ispass = 2) then '缺考' end) as fuli
+				,group_concat(case when (d.subjectid in(6,11)) or(dd.subjectid in(6,11)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as fuliExamDate
+				
+				,group_concat(case when (d.subjectid in(7,12) and d.ispass = 0) or (dd.subjectid in(7,12) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(7,12) and d.ispass = 1) or (dd.subjectid in(7,12) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(7,12) and d.ispass = 2) or (dd.subjectid in(7,12) and dd.ispass = 2) then '缺考' end) as zonghe	
+				,group_concat(case when (d.subjectid in(7,12)) or(dd.subjectid in(7,12)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as zongheExamDate
+	
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(3,4,18) and s.studentstate in(4,5,6,7)
+		<if test="deptid != null and deptid == 19 and roleid ==25 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==24 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 19) )
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.studentstate,s.dealtime desc
+	</select>
+	
+	<!-- 查询CFP回访学员(客服) -->
+	<select id="queryCFPhfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid,CASE WHEN d.scoretime IS NULL THEN dd.scoretime ELSE d.scoretime END AS acscoretime,
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        case when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) = 5 then 'C五科' 
+	      	    when count((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) ) &lt;&gt; 5 then group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') end as subjectname
+				,group_concat(case when (d.subjectid in(3,8)  and d.ispass = 0) or(dd.subjectid in(3,8)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 1) or(dd.subjectid in(3,8)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(3,8)  and d.ispass = 2) or(dd.subjectid in(3,8)  and dd.ispass = 2) then '缺考' end) as touzi	
+				,group_concat(case when (d.subjectid in(3,8)) or(dd.subjectid in(3,8)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as touziExamDate
+				
+				,group_concat(case when (d.subjectid in(4,9)  and d.ispass = 0) or (dd.subjectid in(4,9)  and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 1) or (dd.subjectid in(4,9)  and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(4,9)  and d.ispass = 2) or (dd.subjectid in(4,9)  and dd.ispass = 2) then '缺考' end )as baoxian
+				,group_concat(case when (d.subjectid in(4,9)) or(dd.subjectid in(4,9)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as baoxianExamDate
+				
+				,group_concat(case when (d.subjectid in(5,10) and d.ispass = 0) or (dd.subjectid in(5,10) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(5,10) and d.ispass = 1) or (dd.subjectid in(5,10) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(5,10) and d.ispass = 2) or (dd.subjectid in(5,10) and dd.ispass = 2) then '缺考' end) as shuiwu
+				,group_concat(case when (d.subjectid in(5,10)) or(dd.subjectid in(5,10)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as shuiwuExamDate
+			
+				,group_concat(case when (d.subjectid in(6,11) and d.ispass = 0) or(dd.subjectid in(6,11) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(6,11) and d.ispass = 1) or(dd.subjectid in(6,11) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(6,11) and d.ispass = 2) or(dd.subjectid in(6,11) and dd.ispass = 2) then '缺考' end) as fuli
+				,group_concat(case when (d.subjectid in(6,11)) or(dd.subjectid in(6,11)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as fuliExamDate
+				
+				,group_concat(case when (d.subjectid in(7,12) and d.ispass = 0) or (dd.subjectid in(7,12) and dd.ispass = 0) then '未通过' 
+					when (d.subjectid in(7,12) and d.ispass = 1) or (dd.subjectid in(7,12) and dd.ispass = 1) then '通过' 
+					when (d.subjectid in(7,12) and d.ispass = 2) or (dd.subjectid in(7,12) and dd.ispass = 2) then '缺考' end) as zonghe	
+				,group_concat(case when (d.subjectid in(7,12)) or(dd.subjectid in(7,12)) then (case when d.scoretime is null then dd.scoretime else d.scoretime end )end) as zongheExamDate
+	
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(3,4,18) and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 19 and roleid ==25 ">
+				and ( s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 19 and roleid ==24 ">                    
+			and (s.customerId = #{userid})
+		</if>                                        
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.studentstate,s.dealtime desc
+	</select>
+	
+	<!-- 查询基金总表学员(客服) -->
+	<select id="queryjijinTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.resourceId,d.courseid,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(6,7,8,9,19) and s.studentstate in(4,5,6,7)
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==53 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询基金回访学员(客服) -->
+	<select id="queryjijinhfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(6,7,8,9,19) and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==53 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询银从总表学员(客服) -->
+	<select id="queryyincongTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(5) and s.studentstate in(4,5,6,7)
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询银从回访学员(客服) -->
+	<select id="queryyinconghfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(5) and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==30 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询中级总表学员(客服) -->
+	<select id="queryzhongjiTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(10) and s.studentstate in(4,5,6,7)
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==53 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20) )
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询中级回访学员(客服) -->
+	<select id="queryzhongjihfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(10) and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 20 and roleid ==29 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==53 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询证券总表学员(客服) -->
+	<select id="queryzhengquanTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(14) and s.studentstate in(4,5,6,7)
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20) )
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询证券回访学员(客服) -->
+	<select id="queryzhengquanhfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(14) and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc	
+	</select>
+	
+	<!-- 查询期货总表学员(客服) -->
+	<select id="queryqihuoTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(13) and s.studentstate in(4,5,6,7)
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==53 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询期货回访学员(客服) -->
+	<select id="queryqihuohfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(13) and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 20 and roleid ==28 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==53 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询会计总表学员(客服) -->
+	<select id="querykuaijiTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(11) and s.studentstate in(4,5,6,7)
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询会计回访学员(客服) -->
+	<select id="querykuaijihfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(11)  and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 20 and roleid ==27 ">
+				and (s.customerId = #{userid})
+		</if>
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询初级总表学员(客服) -->
+	<select id="querychujiTotalStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(12) and s.studentstate in(4,5,6,7)
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20) )
+		</if>	
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	<!-- 查询初级回访学员(客服) -->
+	<select id="querychujihfStudents" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select 
+				s.*,u.username customerName,uu.username belongName,
+				d.dealrecordId,d.subjectid, 
+		        c.courseName  courseName,s.dealprice,s.dealtime,
+		        group_concat((select sb.subjectname from hj_subject sb where sb.subjectid = d.subjectid or sb.subjectid =  dd.subjectid) separator '、') subjectname
+		from hj_student s
+		left join hj_dealrecord d on d.resourceId = s.resourceId
+		left join hj_dealrecord dd on dd.studentId = s.studentId 
+		left join hj_course c  on c.courseid = s.courseid 
+		left join hj_user u on u.userid = s.customerId
+		left join hj_user uu on uu.userid = s.belongid 
+		where 1=1 and s.dr = 0 and s.courseid in(12)  and s.studentstate in(5) and (s.specialinfo is  null or s.specialinfo = '')
+		<if test="deptid != null and deptid == 20 and roleid ==26 ">
+			and ( s.customerId in(select userid from hj_user where deptid = 20))
+		</if>
+		group by s.studentId,s.resourceId, d.courseid 
+		order by s.create_time desc,s.dealtime desc
+	</select>
+	
+	<!-- 查询学员各科成绩 -->
+	<select id="querystudentScore" parameterType="java.util.Map" resultType="com.hjcrm.resource.entity.Student">
+		select  d.resourceId,d.studentId,
+			group_concat((case when d.subjectid in(13) then s.subjectname  end ) separator '、')  flfg,
+			group_concat((case when d.subjectid in(13) then d.score end ) separator '、') flfgScore,
+			group_concat((case when d.subjectid in(14) then s.subjectname  end ) separator '、')  grlc,
+			group_concat((case when d.subjectid in(14) then d.score end ) separator '、') grlcScore,
+			group_concat((case when d.subjectid in(15) then s.subjectname  end ) separator '、')  fxgl,
+			group_concat((case when d.subjectid in(15) then d.score end ) separator '、') fxglScore,
+			group_concat((case when d.subjectid in(16) then s.subjectname  end ) separator '、')  gsxd,
+			group_concat((case when d.subjectid in(16) then d.score end ) separator '、') gsxdScore,
+			group_concat((case when d.subjectid in(17) then s.subjectname  end ) separator '、')  grdk,
+			group_concat((case when d.subjectid in(17) then d.score end ) separator '、') grdkScore,
+			group_concat((case when d.subjectid in(18,20,22,24) then s.subjectname end ) separator '、') jijin1,
+			group_concat((case when d.subjectid in(18,20,22,24) then d.score end ) separator '、') jijin1Score,
+			group_concat((case when d.subjectid in(19,21,23,25) then s.subjectname  end ) separator '、') jijin2,
+			group_concat((case when d.subjectid in(19,21,23,25) then d.score end ) separator '、') jijin2Score,
+			group_concat((case when d.subjectid in(26) then s.subjectname  end ) separator '、')  jjjczd,
+			group_concat((case when d.subjectid in(26) then d.score end ) separator '、') jjjczdScore,
+			group_concat((case when d.subjectid in(27) then s.subjectname  end ) separator '、')  jrzy,
+			group_concat((case when d.subjectid in(27) then d.score end ) separator '、') jrzyScore,
+			group_concat((case when d.subjectid in(28) then s.subjectname  end ) separator '、')  gsgl,
+			group_concat((case when d.subjectid in(28) then d.score end ) separator '、') gsglScore,
+			group_concat((case when d.subjectid in(29) then s.subjectname  end ) separator '、')  czss,
+			group_concat((case when d.subjectid in(29) then d.score end ) separator '、') czssScore,
+			group_concat((case when d.subjectid in(30) then s.subjectname  end ) separator '、')  kjjc,
+			group_concat((case when d.subjectid in(30) then d.score end ) separator '、') kjjcScore,
+			group_concat((case when d.subjectid in(31) then s.subjectname  end ) separator '、')  cjfg,
+			group_concat((case when d.subjectid in(31) then d.score end ) separator '、') cjfgScore,
+			group_concat((case when d.subjectid in(32) then s.subjectname  end ) separator '、')  cjkj,
+			group_concat((case when d.subjectid in(32) then d.score end ) separator '、') cjkjScore,
+			group_concat((case when d.subjectid in(33) then s.subjectname  end ) separator '、')  jjfjc,
+			group_concat((case when d.subjectid in(33) then d.score end ) separator '、') jjfjcScore,
+			group_concat((case when d.subjectid in(34) then s.subjectname  end ) separator '、')  qhjczs,
+			group_concat((case when d.subjectid in(34) then d.score end ) separator '、') qhjczsScore,
+			group_concat((case when d.subjectid in(35) then s.subjectname  end ) separator '、')  qhflfg,
+			group_concat((case when d.subjectid in(35) then d.score end ) separator '、') qhflfgScore,
+			group_concat((case when d.subjectid in(36) then s.subjectname  end ) separator '、')  zqsc,
+			group_concat((case when d.subjectid in(36) then d.score end ) separator '、') zqscScore,
+			group_concat((case when d.subjectid in(37) then s.subjectname  end ) separator '、')  jrsc,
+			group_concat((case when d.subjectid in(37) then d.score end ) separator '、') jrscScore
+			from hj_dealrecord d
+			left join hj_subject s on s.subjectid = d.subjectid
+			where 1=1 and d.dr = 0
+			<if test="studentId != null and studentId != '' ">
+				and	d.studentId = #{studentId}
+			</if>
+			<if test="resourceId != null and resourceId != '' ">
+				and	d.resourceId = #{resourceId}
+			</if>
+			group by d.resourceId,d.studentId
+	</select>
+	
+	
+	
+</mapper> 

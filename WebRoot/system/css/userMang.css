@@ -1,0 +1,133 @@
+
+
+/* 菜单管理 */
+.menuTit {
+	font-size: 16px;
+    height: 40px;
+    line-height: 40px;
+    background: #fff;
+    width: 100%;
+    color: #428bca;
+    cursor: pointer;
+    padding-left: 30px;
+}
+
+.menuList {
+	font-size: 16px;	
+	width: 100%;
+	height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #ccc;   
+    color: #428bca;
+    cursor: pointer;
+	
+}
+
+.menuCon {
+	width: 100%;
+	padding-left: 30px;
+	padding-right: 30px;
+	-moz-box-sizing: border-box;  
+    -webkit-box-sizing: border-box; 
+    -o-box-sizing: border-box; 
+    -ms-box-sizing: border-box; 
+    box-sizing: border-box;
+}
+.menutree {
+	position: relative;
+}
+.menuactive {	
+	background:  #428bca;
+	color: #fff;
+}
+.option {
+	width: 100%;
+}
+.sildup {	
+    position: absolute;
+    left: 0px;
+    top: 14px;
+    color: #428bca;
+    font-size: 16px;	
+}
+.flag {
+	padding-right: 10px;
+	padding-left: 40px;
+}
+
+.down{
+	color: #f00
+}
+.up {
+	color: #f40;
+}
+
+.purple {
+	background:#880374;
+}
+/* 角色管理 */
+.assessTit{
+	    font-size: 16px;
+}
+.assessList{
+	padding-left: 30px;
+	-moz-box-sizing: border-box;  
+    -webkit-box-sizing: border-box; 
+    -o-box-sizing: border-box; 
+    -ms-box-sizing: border-box; 
+    box-sizing: border-box;
+}
+.assessList li {
+	font-size: 14px;
+	colir: #666;
+	height: 40px;
+	line-height: 40px;
+}
+.assessList li input{
+	float: left;    
+    margin-top: 13px;
+    margin-right: 6px;
+}
+.arrow {
+	color: #4c7cba;
+	margin-right: 10px;
+	cursor: pointer;
+}
+/* 课程管理 */
+.tool {
+	width: 115px !important;
+}
+.tool span {
+	width: 20px;
+    background: #fff;
+    text-align: center;
+    padding: 5px 0;
+    color: #fff;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.tool .delete{
+    background: #cd3333;
+}
+
+.coursePanel {
+	height: 50px;
+    background: #3d3d3d;
+    color: #fff;
+    line-height: 50px;
+    font-size: 15px;
+    margin-top: 20px;
+}
+.glyphicon-th-list {
+	padding: 0 10px;
+	color: #fff;
+}
+.courseList {
+	background: #31435b;
+}
+.changeCourse,#saveChPatter {
+	display:none;
+}
+.patter {
+	background: #d9edf7 !important;
+}

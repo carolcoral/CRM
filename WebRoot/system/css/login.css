@@ -1,0 +1,216 @@
+html { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+input[type="submit"], input[type="reset"], input[type="button"], input { -webkit-appearance: none; resize: none; }
+
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, video, source { -webkit-tap-highlight-color: transparent; list-style: none; padding: 0; margin: 0; }
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+
+img { max-width: 100%; height: auto; width: auto\9; -ms-interpolation-mode: bicubic; }
+
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { margin: 0; padding: 0; border: none; font-family: "Microsoft Yahei","Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif; color: #333; }
+
+body { font-family: Microsoft YaHei,Tahoma,Arial,sans-serif; }
+
+em, i { font-style: normal; }
+
+strong { font-weight: normal; }
+
+.clearfix:after { content: ""; display: block; visibility: hidden; height: 0; clear: both; }
+
+.clearfix { zoom: 1; }
+
+a { text-decoration: none; font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif; -webkit-tap-highlight-color: transparent; outline: none; color: #333; }
+
+a:hover { text-decoration: none; }
+
+ul, ol { list-style: none; }
+
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+
+img { border: none; display:block;}
+input,button{outline:none;}
+html {
+	width:100%;
+	height:100%;
+}
+input:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0px 1000px white inset;
+	border: 1px solid #ccc !important;
+}
+body {
+	width:100%;
+	height:100%;
+	font-size: 12px;
+	color:#333;
+	background:url(../img/login_bj.png) no-repeat center;
+	background-size:cover;
+	font-family: "microsoft yahei";
+}
+.logo {
+	width: 100%;	
+	padding-top: 55px;
+}
+.logo img {
+	padding-left: 10%;
+}
+.title {
+	margin-top: 55px;
+}
+.title img {
+	margin: 0 auto;	
+}
+.content{
+    width: 560px;
+    margin: 50px auto 0;
+    text-align: center;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    background: #fff;              
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
+    -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .15);
+    border-radius: 10px;             
+}
+
+.ui_tit {
+    background: #393939;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    height: 67px;
+    text-align: left;
+    line-height: 67px;
+    padding-left: 20px;
+    font-weight: bold;
+    font-size: 30px;
+    font-weight: normal;
+    color: #fff;
+    margin: 0;
+}
+.zhuanjia{            
+    font-size:18px;
+    color: #00aaef;
+    padding-top:10px;
+}
+#loginform {
+	padding:0 50px 45px;
+	
+}
+.crm-register li {
+    margin-bottom: 20px;
+    position: relative;
+}
+.glyphicon {   
+    font-size: 20px;
+    color: #fff;
+}
+.input-group-addon {    
+    background: #00aaef;
+}
+.text {
+    line-height: 50px;
+    width: 100%;
+    height: 50px;
+    line-height:50px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: 1px solid #cfdae6;
+    background: #fff;
+    position: relative;
+    padding: 0 20px;
+    font-size:18px;
+    box-sizing: border-box;
+}
+.text:focus {
+    border: 3px solid #00aaef;
+    line-height:56px;
+} 
+::-webkit-input-placeholder {           
+    color:#999;
+    font-size:16px;
+}
+
+.login{
+    margin-top: 20px;
+}
+.login button {
+    font-size: 20px;
+    line-height: 50px;
+    width: 100%;
+    height: 50px;
+    color: #fff;
+    border-radius: 5px;
+    background: #00aaef;
+    display:block;
+    text-decoration:none;
+} 
+.form-error span {
+    text-align: left;
+    display: block;
+    margin-left: 20px;
+    margin-top: 10px;
+    color: #fa7252;
+}
+#errorinfo {
+	text-align: left;
+    display: block;
+    margin-left: 20px;
+    margin-top: 10px;
+    color: #fa7252;
+}
+.huajin {
+	position: absolute;
+    right: 6px;
+    top: 3px;
+    font-size: 18px;
+    height: 44px;
+    background: #fff;
+    line-height: 44px;
+    outline: none;
+}
+.vender_login {
+	margin-top: 10px;
+	padding: 0 187px;
+}
+h5 {
+    margin-top: 20px;
+    color: #777;
+    font-weight: normal;
+}
+.footer {
+	margin-top :120px;
+}
+.footer p{
+	font-size: 14px;
+	line-height: 28px;
+	color: #444;
+	text-align: center;
+	margin: 0px 20px 30px;
+}
+.footer p a {
+	color: #295fb3;
+	margin: 0px 20px;
+}
+.vender_login li {
+    float: left;
+    width: 44px;
+    height: 43px;
+    margin-right: 9px;
+}
+.vender_login li .vender_icon {
+    display: inline-block;
+    width: 44px;
+    height: 43px;
+    background-position: left top;
+    background-repeat: no-repeat;
+}
+.vender_login li .icon_tencent {
+    background-image: url(//www.lgstatic.com/passport/static/pc/modules/common/img/icon-tecent_5870bd4.png);
+}
+.vender_login li .icon_wechat {
+    background-image: url(//www.lgstatic.com/passport/static/pc/modules/common/img/icon-wechat_12ea62f.png);
+}
+.forget{   
+	margin-top: 20px;
+    display: block;
+}

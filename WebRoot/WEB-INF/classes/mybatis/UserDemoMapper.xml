@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+	<!-- 查询部门信息 -->
+	<select id="queryDepts"  parameterType="java.util.Map" resultType="com.hjcrm.system.entity.Dept">
+		select * from hj_dept
+		<if test="deptcode != null and deptcode != ''">
+			where 1=1 and deptcode=#{deptcode}
+		</if>
+	</select>
+	
+</mapper> 

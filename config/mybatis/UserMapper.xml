@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hjcrm.entity">
+
+	<!-- 查询用户是否存在 -->
+	<select id="authLoginNameIsExist" parameterType="java.lang.String" resultType="com.hjcrm.system.entity.User">
+		 select 
+			u.userid,u.username,u.nickname,u.password,u.phone,
+			u.mobile,u.deptid,u.roleid,u.create_time,u.state,
+			u.wxopenid,u.qqopenid,u.dr,u.userphoto,u.email,u.ischange,u.deptgroup
+		from hj_user u
+		where 1=1 and u.dr = 0 and u.state = 0
+			and u.email = #{paramter} 
+	</select>
+	
+	<!-- 验证用户密码是否正确 -->
+	<select id="isPasswordMatch" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select * from hj_user u where  1=1 and u.dr = 0 and u.state = 0 and u.userid = #{userid} and u.password = #{password} 
+	</select>
+	
+	<!-- 根据主键查询USER -->
+	<select id="queryByIdentity" parameterType="java.lang.Long" resultType="com.hjcrm.system.entity.User">
+		select 
+			u.userid,u.username,u.nickname,u.password,u.email,u.userphoto,u.phone,
+	        u.mobile,u.deptid,u.roleid,u.state,u.sex,u.dr,u.create_time,u.create_time,
+	        u.update_id,u.update_time,u.note, d.deptname,r.rolename ,u.deptgroup
+		from hj_user u 
+		  left join hj_dept d on d.deptid = u.deptid
+          left join hj_role r on r.roleid = u.roleid
+		where  1=1 and u.dr = 0 and u.state = 0 and u.userid = #{paramter} 
+	</select>
+	
+	<!-- 获取用户列表 -->
+	<select id="queryUserList" resultType="com.hjcrm.system.entity.User">
+		select 
+			u.userid,u.username,u.nickname,u.password,u.email,u.userphoto,u.phone,
+	        u.mobile,u.deptid,u.roleid,u.state,u.sex,u.dr,u.create_time,u.create_time,
+	        u.update_id,u.update_time,u.note, d.deptname,r.rolename,u.deptgroup
+		from hj_user u
+		  left join hj_dept d on d.deptid = u.deptid
+          left join hj_role r on r.roleid = u.roleid
+		where  1=1 and u.dr = 0  
+		<if test="phone != null">
+			and u.phone = #{phone}
+		</if>
+		<if test="email != null">
+			and u.email = #{email}
+		</if>
+		
+		ORDER BY u.create_time DESC
+	</select>
+	
+	<!-- 验证用户名或手机号或邮箱是否存在 -->
+	<select id="authPhoneOrEmailIsExist" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		 select * from hj_user u 
+			where  1=1 and u.dr = 0 and u.state = 0 
+				and ( u.phone = #{phone} or u.email = #{email})
+			order by u.create_time desc
+	</select>
+	
+	<!-- 查询所有运营部人员 和销售部主管人员 -->
+	<select id="queryAllDirectors" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select 
+			u.userid,u.username,u.deptgroup,u.deptid,u.roleid
+		from hj_user u
+		where 1=1 and u.dr = 0
+		and (u.deptid = 2 or u.roleid in (4,6,8,10,12,14,16,18))
+	</select>
+	
+	<!-- 查询所有销售,行政,客服-->
+	<select id="queryAllusers" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select 
+			u.userid,u.username,u.deptgroup,u.deptid,u.roleid
+		from hj_user u
+		where 1=1 and u.dr = 0  and u.state = 0
+		and (u.deptid > 3)
+	</select>
+	
+	<select id="queryUserByUsername" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select 
+			*
+		from hj_user u
+		where 1=1 and u.dr = 0
+		and u.username  like concat('%','${username}','%') 
+	</select>
+	<select id="queryUserById" parameterType="java.util.Map" resultType="com.hjcrm.system.entity.User">
+		select 
+			*
+		from hj_user u
+		where 1=1 and u.dr = 0
+		and u.userid=#{userid}
+	</select>
+	
+</mapper> 

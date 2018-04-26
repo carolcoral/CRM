@@ -1,0 +1,202 @@
+@charset "UTF-8";
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%; }
+
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, video, source {
+  -webkit-tap-highlight-color: transparent;
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+ 
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+img {
+  max-width: 100%;
+  height: auto;
+  width: auto\9;
+  -ms-interpolation-mode: bicubic; }
+
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, dt, dd, a, img, button, form, table, th, tr, td, tbody, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: "Microsoft Yahei","Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif; }
+
+body {
+  font-family: Microsoft YaHei,Tahoma,Arial,sans-serif;
+  -webkit-overflow-scrolling: touch;
+  overflow-scrolling: touch; }
+
+em, i {
+  font-style: normal; }
+
+strong {
+  font-weight: normal; }
+b {
+	font-weight: 100 !important;
+}
+.clearfix:after {
+  content: "";
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both; }
+
+.clearfix {
+  zoom: 1; }
+
+a {
+  text-decoration: none;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  outline: none; 
+  outline-style:none;
+ }
+
+a:hover, a:active,a:link {
+  text-decoration: none; }
+ul, ol {
+  list-style: none; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%; }
+
+img {
+  border: none;
+ }
+
+textarea {
+  resize: none; }
+
+.box-sizing {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -moz-box-sizing: border-box; }
+
+.layout {
+  width: 1200px;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 50px 0;
+  text-align: center; }
+
+.font-weight {
+  font-weight: normal; }
+
+.display-flex {
+  display: flex;
+  display: -webkit-flex;
+  display: -o-flex;
+  display: -ms-flex;
+  display: -moz-flex; }
+
+@font-face {
+  font-family: 'glyphicons-halflings-regular';
+  src: url("glyphicons-halflings-regular.eot");
+  /* IE9 Compat Modes */
+  src: url("glyphicons-halflings-regular?#iefix") format("embedded-opentype"), url("glyphicons-halflings-regular.woff") format("woff"), url("glyphicons-halflings-regular.ttf") format("truetype"), url("glyphicons-halflings-regular.svg#glyphicons-halflings-regular") format("svg");
+  /* Legacy iOS */ }
+
+a:hover {  
+  text-decoration: none; }
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  scrollbar-face-color: #F3F3F3;
+  /*面子*/
+  scrollbar-arrow-color: #C0C0C0;
+  /*箭头*/
+  scrollbar-3dlight-color: #C0C0C0;
+  /*最外左*/
+  scrollbar-highlight-color: #FFFFFF;
+  /*左二*/
+  scrollbar-shadow-color: #FFFFFF;
+  /*右二*/
+  scrollbar-darkshadow-color: #C0C0C0;
+  /*右一*/
+  scrollbar-track-color: #F3F3F3;
+  /*滑道*/ }
+
+/*滚动条整体*/
+::-webkit-scrollbar {
+  width: 3px;
+  /*滚动条宽度*/
+  height: 15px; }
+
+/*滚动条按钮*/
+::-webkit-scrollbar-track {
+  background-color: #ccc;
+  /*滑道全部*/ }
+
+::-webkit-scrollbar-track-piece {
+  background-color: #ccc;
+  /*滑道*/
+  -webkit-border-radius: 5px;
+  /*滑道圆角宽度*/ }
+
+::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+  /*滑动条表面*/
+  border: solid 1px #c1c1c1;
+  /*滑动条边框*/
+  border-radius: 10px;
+  /*滑动条圆角宽度*/ }
+
+/*横竖滚动条交角*/
+::-webkit-scrollbar-corner {
+  background-color: #adbdcc; }
+
+/*横竖滚动条交角图案*/
+::-webkit-resizer {
+  background-repeat: no-repeat;
+  background-position: bottom right; }
+
+/*鼠标滑过滑动条*/
+::-webkit-scrollbar-thumb:hover {
+  background-color: #3e4659; }
+.reportWrap {
+	width: 95%;
+    margin: 0 auto;
+}  
+.listnav {
+	width: 100%;
+    overflow: hidden;
+    margin: 30px;
+}
+.listnav li {
+	float: left;
+    color: #333;
+    background: #eee;
+    font-size: 14px;
+    line-height: 32px;
+    padding: 0 20px;
+    border: 3px solid #dbdbdb;
+    margin: 0 10px;
+    cursor: pointer;
+}
+.listnav .current {
+	background: #fff;
+    border: 3px solid #337ab7;
+}
+.charts {
+	width: 100%;
+	overflow: hidden;
+	display: none;
+}
+.chartslist {
+	float: left;
+	width: 700px;
+	height: 400px;
+	margin: 30px 0 50px 50px;
+}
+.sumFilter{
+	width: 100%;
+    overflow: hidden;
+    margin: 20px 0;
+}  

@@ -1,0 +1,110 @@
+body {
+	background: #e7eaef;
+}
+.detailscom {
+	width: 97%;
+	margin:0 auto;
+	overflow: hidden;
+	background:#fff;
+	margin-top: 40px;
+	padding: 0 20px;
+}
+.detailTti {
+    font-wight: 100;
+    font-size: 18px;
+    padding: 0 20px;
+    line-height: 45px;
+    border-bottom: 1px solid #4497fb;
+}
+
+.detailseWrap{
+    width: 100%;
+    overflow: hidden;
+}
+.detailsedit {
+    width: 50%;
+    padding: 20px;
+    box-sizing: border-box;
+    box-sizing: -moz-border-box;
+    box-sizing: -webkit-border-box;
+    overflow: hidden;
+    float: left;
+}
+.detailTti {
+    font-wight: 100;
+    font-size: 18px;
+    padding: 0 20px;
+    line-height: 45px;
+    border-bottom: 1px solid #4497fb;
+}
+.detailscon {
+	width: 80%;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+
+
+
+
+
+
+
+.details {
+	float: left;
+	width: 50%;
+	-moz-box-sizing: border-box;  
+    -webkit-box-sizing: border-box; 
+    -o-box-sizing: border-box; 
+    -ms-box-sizing: border-box; 
+    box-sizing: border-box;
+    overflow: hidden;
+	padding: 30px;
+	
+}
+.details p {
+    line-height: 38px;
+    color: #a94442;
+    background: #f9f9f9;
+    width: 100%;
+    height: 38px;
+}
+.visitRecord {
+	width: 100%;
+    padding: 30px;
+}
+.visitRecord label{
+    margin: 15px 0 !important;
+}
+.vistiRecord .btn {
+	display: block;
+    margin: 20px 0 !important;
+}
+.visit {
+	width: 100%;
+	-moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0 30px;
+}
+.shijian {
+	line-height: 30px;
+}
+.error {
+	color: #f00;
+    margin-top: 10px;
+    display: block;
+    text-align: left;
+}
+#subjectid label{
+    margin-left: 0px;
+    margin-right: 10px;
+}
+.group {
+	margin-bottom: 15px;
+    width: 100%;
+    overflow: hidden;
+}

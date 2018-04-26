@@ -1,0 +1,74 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+	http://www.springframework.org/schema/aop  
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- 使用注解的包，包括子集 -->
+    <context:component-scan base-package="com.hjcrm.**.controller" >  
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />  
+	</context:component-scan>
+	
+  <!-- 	<bean id="logService" class="com.hjcrm.publics.ipAndOperation.controller.LogService"></bean> 
+	<aop:aspectj-autoproxy proxy-target-class="true"/>  -->
+	
+	<!-- 访问国际化信息的MessageSource接口 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	<!-- 视图解析器 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- MultipartFile来进行文件上传 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10240000000" />
+		<property name="defaultEncoding" value="UTF-8"></property>  
+	</bean>
+	
+	<!-- <bean id="logService" class="com.hjcrm.publics.logs.controller.LogController"></bean> 
+	<aop:aspectj-autoproxy proxy-target-class="true"/>  -->
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*.do" />
+			<bean class="com.hjcrm.publics.interceptorfiles.BackgroundLoginInterceptor"></bean>
+		</mvc:interceptor>
+		<!-- <mvc:interceptor>
+			<mvc:mapping path="/auth/**/*.htm"/>
+			<bean class="com.hjcrm.publics.interceptorfiles.FrontLoginInterceptor"></bean>
+		</mvc:interceptor> -->
+	</mvc:interceptors>
+
+	<!-- 处理请求映射,启用注解驱动 -->
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+</beans>  

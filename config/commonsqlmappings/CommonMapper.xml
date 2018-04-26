@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hjcrm.publics.dao" >
+	<select id="Common_Insert" parameterType="java.lang.Object"></select>
+	<update id="Common_Update" parameterType="java.lang.Object"></update>
+	<delete id="Common_Delete" parameterType="java.lang.Object"></delete>
+	<delete id="Common_Delete_By_Ids" parameterType="java.lang.Object"></delete>
+	<select id="Common_Select_By_Id" parameterType="java.lang.Object" resultType="java.util.Map" flushCache="true"></select>
+	<select id="Common_Select" parameterType="java.util.Map" resultType="java.util.Map"  flushCache="true"></select>
+	
+	<!-- Test statment for TestDataAccess.java -->
+	<!-- <select id="select_profile" parameterType="com.crmbj.pbx.entity.config.Profile" resultType="com.crmbj.pbx.entity.config.Profile">
+		select * from cfg_profile where profile_name = #{profile_name}
+	</select> -->
+	 
+</mapper>
